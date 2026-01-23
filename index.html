@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Angels of Darkness | Syndicate UA 04</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --neon: #00ff88;
+            --neon-glow: rgba(0, 255, 136, 0.4);
+            --bg: #030303;
+            --panel: rgba(15, 15, 15, 0.98);
+            --border: rgba(0, 255, 136, 0.2);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: #fff;
+            margin: 0;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        /* Фонова сітка та ефекти */
+        .mesh-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 15% 20%, rgba(0, 255, 136, 0.08) 0%, transparent 45%),
+                        radial-gradient(circle at 85% 80%, rgba(0, 150, 255, 0.05) 0%, transparent 45%);
+            z-index: -2;
+        }
+
+        header {
+            min-height: 100svh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hero-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(2.5rem, 12vw, 7rem);
+            line-height: 1.1;
+            text-transform: uppercase;
+            background: linear-gradient(to bottom, #fff 40%, var(--neon));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px var(--neon-glow));
+        }
+
+        .container { width: 92%; max-width: 1200px; margin: 0 auto; }
+
+        .glass-panel {
+            background: var(--panel);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            padding: clamp(20px, 5vw, 40px);
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+
+        .section-header {
+            font-family: 'Oswald';
+            border-left: 3px solid var(--neon);
+            padding-left: 15px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+        }
+
+        /* Статистика */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        @media (min-width: 768px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
+
+        .stat-box {
+            padding: 20px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .stat-box h2 { font-family: 'Oswald'; font-size: 2.5rem; margin: 0; color: var(--neon); }
+        .stat-box p { font-size: 0.7rem; text-transform: uppercase; color: #888; margin: 5px 0 0; }
+
+        /* Керівництво */
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .staff-card {
+            background: rgba(10, 10, 10, 0.9);
+            border: 1px solid var(--border);
+            padding: 30px;
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 90% 100%, 0 100%);
+        }
+
+        .staff-card h3 { font-family: 'Oswald'; margin-bottom: 5px; letter-spacing: 1px; }
+
+        /* Автопарк */
+        .fleet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 15px;
+        }
+
+        .car-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            padding: 20px;
+        }
+
+        .car-card h4 { font-family: 'Oswald'; margin: 10px 0; font-size: 1.1rem; text-transform: uppercase; color: var(--neon); }
+        .car-specs { list-style: none; padding: 0; font-size: 0.8rem; color: #bbb; }
+        .car-specs li { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 8px 0; }
+
+        /* Кнопки та Модалка */
+        .cta-btn {
+            display: block; width: 100%; max-width: 320px; margin: 40px auto;
+            padding: 20px; border: 1px solid var(--neon); background: rgba(0,255,136,0.05);
+            color: #fff; font-family: 'Oswald'; text-transform: uppercase; cursor: pointer;
+            letter-spacing: 3px; font-weight: bold;
+        }
+
+        .method-btn {
+            flex: 1; padding: 12px; background: transparent; border: 1px solid #333;
+            color: #fff; font-family: 'Oswald'; cursor: pointer; transition: 0.3s;
+        }
+        .method-btn.active { background: var(--neon); color: #000; border-color: var(--neon); }
+
+        .s-item { border: 1px solid #333; padding: 12px; font-size: 0.75rem; text-align: center; cursor: pointer; color: #888; }
+        .s-item.act { border-color: var(--neon) !important; color: var(--neon) !important; background: rgba(0,255,136,0.1); }
+    </style>
+</head>
+<body onclick="playMusic()">
+    <div class="mesh-bg"></div>
+    <audio id="bg-music" loop><source src="https://www.bensound.com/bensound-music/bensound-scifi.mp3"></audio>
+
+    <header>
+        <h1 class="hero-title" data-aos="zoom-in">ANGELS<br>OF DARKNESS</h1>
+        <p style="letter-spacing: 5px; color: var(--neon); font-family: 'Oswald';">UA ONLINE 04 // SYNDICATE</p>
+    </header>
+
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-box" data-aos="fade-up"><h2>60+</h2><p>Учасників</p></div>
+            <div class="stat-box" data-aos="fade-up" data-aos-delay="100"><h2>18</h2><p>Автопарк</p></div>
+            <div class="stat-box" data-aos="fade-up" data-aos-delay="200"><h2>04</h2><p>Сервер</p></div>
+            <div class="stat-box" data-aos="fade-up" data-aos-delay="300"><h2>#1</h2><p>Скоро</p></div>
+        </div>
+
+        <div class="glass-panel" data-aos="fade-up">
+            <h2 class="section-header">Керівництво Сім'ї</h2>
+            <div class="staff-grid">
+                <div class="staff-card"><h3>GIANNI_VERSACE</h3><p style="color:var(--neon); font-size: 0.8rem;">Лідер / Засновник</p></div>
+                <div class="staff-card"><h3>VITALIK_SERGIENKO</h3><p style="color:#888; font-size: 0.8rem;">Головний Заступник</p></div>
+                <div class="staff-card"><h3>WALDEMAR_MILLENIUM</h3><p style="color:#888; font-size: 0.8rem;">Головний Заступник</p></div>
+            </div>
+        </div>
+        <div class="glass-panel" data-aos="fade-up">
+    <h2 class="section-header">Кодекс Синдикату</h2>
+    <div class="code-terminal">
+        <div class="scanline"></div>
+        <div class="code-content">
+            <div class="code-item">
+                <span class="code-num">01</span>
+                <div>
+                    <strong style="color: var(--neon);">ВІРНІСТЬ БРАТСТВУ</strong>
+                    <p>Будь-яка форма зради, співпраці з ворогами або приховування інформації карається негайним вигнанням із "чорним списком".</p>
+                </div>
+            </div>
+            <div class="code-item">
+                <span class="code-num">02</span>
+                <div>
+                    <strong style="color: var(--neon);">СУВОРА ДИСЦИПЛІНА</strong>
+                    <p>Накази лідера GIANNI_VERSACE та його заступників не обговорюються.</p>
+                </div>
+            </div>
+            <div class="code-item">
+                <span class="code-num">03</span>
+                <div>
+                    <strong style="color: var(--neon);">ЗАХИСТ СВОЇХ</strong>
+                    <p>Напад на одного члена сім'ї — це напад на всю сім'ю. Ми ніколи не залишаємо своїх у біді, незалежно від обставин.</p>
+                </div>
+            </div>
+            <div class="code-item">
+                <span class="code-num">04</span>
+                <div>
+                    <strong style="color: var(--neon);">ЧЕСТЬ ТА ПОВАГА</strong>
+                    <p>Ми не принижуємо новачків, але й не терпимо зухвалості. Кожен учасник має підтримувати репутацію сім'ї.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="glass-panel" data-aos="fade-up">
+    <h2 class="section-header">Ієрархія Синдикату</h2>
+    <div class="ranks-container">
+        
+        <div class="rank-group rookie">
+            <div class="group-header">1 - 5 РАНГИ // НОВАЧКИ</div>
+            <div class="rank-details">
+                <p><span>Доступ:</span> Базовий автопарк, спільні заходи.</p>
+                <p><span>Завдання:</span> Освоїтися в сім'ї, вивчити кодекс, проявляти активність.</p>
+                <p class="rank-note">Випробувальний термін для кожного учасника.</p>
+            </div>
+        </div>
+
+        <div class="rank-group experienced">
+            <div class="group-header">5 - 7 РАНГИ // СВОЇ</div>
+            <div class="rank-details">
+                <p><span>Доступ:</span> Швидкісні авто (Dodge, BMW X7), премії за активність.</p>
+                <p><span>Завдання:</span> Допомога новачкам, участь в житті сім'ї.</p>
+                <p class="rank-note">Перевірені часом...</p>
+            </div>
+        </div>
+
+        <div class="rank-group shooters">
+            <div class="group-header">8 РАНГ // ELITE SHOOTERS</div>
+            <div class="rank-details">
+                <p><span>Доступ:</span> Елітний автопарк, збройовий склад, окремий чат.</p>
+                <p><span>Завдання:</span> Силова підтримка, виїзди на замовлення, захист бізнесів.</p>
+                <p class="rank-note">Найкращі стрільці в сім'ї.</p>
+            </div>
+        </div>
+
+        <div class="rank-group bosses">
+            <div class="group-header">9 - 10 РАНГИ // КЕРІВНИЦТВО</div>
+            <div class="rank-details">
+                <p><span>Доступ:</span> Повний доступ до всіх ресурсів, управління складом.</p>
+                <p><span>Завдання:</span> Дипломатія, прийняття рішень, контроль бюджету сім'ї.</p>
+                <p class="rank-note">Вища рада Сім'ї.</p>
+            </div>
+        </div>
+
+    </div>
+    <div class="glass-panel" data-aos="fade-up">
+    <h2 class="section-header">Критерії відбору</h2>
+    <div class="recruitment-grid">
+        <div class="req-box">
+            <div class="req-item">
+                <i class="fa-solid fa-id-card"></i>
+                <div>
+                    <strong>ВІК 14+</strong>
+                    <p>Ми шукаємо зрілих гравців для серйозної гри.</p>
+                </div>
+            </div>
+            <div class="req-item">
+                <i class="fa-solid fa-comments"></i>
+                <div>
+                    <strong>ЗВ'ЯЗОК</strong>
+                    <p>Наявність Telegram або Discord обов'язкова.</p>
+                </div>
+            </div>
+            <div class="req-item">
+                <i class="fa-solid fa-brain"></i>
+                <div>
+                    <strong>АДЕКВАТНІСТЬ</strong>
+                    <p>Стриманість та повага до членів Сім'ї.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="shooter-offer">
+            <div class="offer-badge">SPECIAL OFFER</div>
+            <h3>ШУКАЄМО ТАЛАНТОВИТИХ СТРІЛЬЦІВ</h3>
+            <p>Якщо ти майстерно володієш зброєю, маєш можливість отримати <b>8 РАНГ (ELITE SHOOTER)</b> відразу після перевірки лідером.</p>
+            <div class="test-status">
+                <span class="pulse-dot"></span> ПЕРЕВІРКА ВІДКРИТА
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<div class="glass-panel" data-aos="fade-up">
+    <h2 class="section-header">Зовнішня Політика</h2>
+    
+    <div class="diplomacy-container">
+        <div class="dip-column">
+            <div class="column-title alliance-text">Союзники</div>
+            <div class="dip-list">
+                <div class="dip-card alliance">
+                    <h3>Mortal Family</h3>
+                    <p>Спільні рейди та взаємодопомога.</p>
+                </div>
+                <div class="dip-card alliance">
+                    <h3>Street Wolves</h3>
+                    <p>Повна підтримка в конфліктах.</p>
+                </div>
+                <div class="dip-card alliance">
+                    <h3>Туманное Братство</h3>
+                    <p>Взаємний захист територій.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="dip-column">
+            <div class="column-title neutral-text">Нейтралітет</div>
+            <div class="dip-list">
+                <div class="dip-card neutral">
+                    <h3>Всі інші сім'ї</h3>
+                    <p>Не чіпають нас — ми не чіпаємо їх.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="dip-column">
+            <div class="column-title war-text">Вороги</div>
+            <div class="dip-list">
+                <div class="dip-card war">
+                    <h3>Відсутні</h3>
+                    <p>Вирішуємо питання розумом, а не силою.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    /* Стилі для Кодексу */
+    .code-terminal {
+        background: rgba(0, 20, 10, 0.6);
+        border: 1px solid var(--border);
+        padding: 25px;
+        position: relative;
+        overflow: hidden;
+    }
+    .scanline {
+        width: 100%; height: 2px; background: rgba(0, 255, 136, 0.1);
+        position: absolute; animation: scan 4s linear infinite; z-index: 1;
+    }
+    @keyframes scan { from { top: 0; } to { top: 100%; } }
+    
+    .code-item { display: flex; gap: 20px; margin-bottom: 20px; position: relative; z-index: 2; }
+    .code-num { font-family: 'Oswald'; color: var(--border); font-size: 1.5rem; }
+    .code-item p { margin: 5px 0 0; font-size: 0.85rem; color: #aaa; }
+
+    /* Стилі для Дипломатії */
+    /* Стилі для 3-х колонок дипломатії */
+    .diplomacy-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 10px;
+    }
+
+    .dip-column {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .column-title {
+        font-family: 'Oswald', sans-serif;
+        text-transform: uppercase;
+        font-size: 1rem;
+        letter-spacing: 2px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+        text-align: center;
+    }
+
+    .alliance-text { color: var(--neon); }
+    .neutral-text { color: #888; }
+    .war-text { color: #ff4444; }
+
+    .dip-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .dip-card {
+        padding: 15px;
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .dip-card h3 { font-size: 0.85rem; margin: 0 0 5px 0; text-transform: uppercase; color: #fff; }
+    .dip-card p { font-size: 0.75rem; color: #777; margin: 0; line-height: 1.4; }
+
+    .dip-card.alliance { border-left: 3px solid var(--neon); }
+    .dip-card.neutral { border-left: 3px solid #888; }
+    .dip-card.war { border-left: 3px solid #ff4444; }
+
+    @media (max-width: 768px) {
+        .diplomacy-container { grid-template-columns: 1fr; }
+    }
+    .ranks-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+    }
+
+    .rank-group {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 20px;
+        transition: 0.3s ease;
+    }
+
+    .rank-group:hover {
+        background: rgba(255, 255, 255, 0.04);
+        border-color: rgba(255, 255, 255, 0.1);
+        transform: translateY(-5px);
+    }
+
+    .group-header {
+        font-family: 'Oswald', sans-serif;
+        font-size: 1rem;
+        letter-spacing: 1px;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .rank-details p {
+        font-size: 0.8rem;
+        line-height: 1.4;
+        margin-bottom: 10px;
+        color: #ccc;
+    }
+
+    .rank-details span {
+        color: var(--neon);
+        font-weight: bold;
+        display: block;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        margin-bottom: 2px;
+    }
+
+    .rank-note {
+        font-style: italic;
+        color: #666 !important;
+        font-size: 0.75rem !important;
+        margin-top: 15px;
+    }
+
+    /* Кольорові акценти для груп */
+    .rookie { border-top: 3px solid #555; }
+    .experienced { border-top: 3px solid #3498db; }
+    .shooters { border-top: 3px solid #e74c3c; } /* Червоний для стрілків */
+    .bosses { border-top: 3px solid var(--neon); box-shadow: inset 0 10px 20px -15px var(--neon); }
+
+    .bosses .group-header { color: var(--neon); }
+    /* Маленька кругла кнопка SOS */
+.sos-circle {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 50px;
+    height: 50px;
+    background: #000;
+    border: 2px solid #ff4444;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ff4444;
+    font-size: 1.5rem;
+    text-decoration: none;
+    z-index: 10000;
+    box-shadow: 0 0 15px rgba(255, 68, 68, 0.4);
+    transition: all 0.3s ease;
+}
+
+.sos-circle:hover {
+    transform: scale(1.1);
+    background: #ff4444;
+    color: #000;
+    box-shadow: 0 0 25px rgba(255, 68, 68, 0.8);
+}
+
+/* Ефект пульсації */
+.sos-ripple {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid #ff4444;
+    border-radius: 50%;
+    animation: sos-pulse 2s infinite;
+    pointer-events: none;
+}
+
+@keyframes sos-pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1.8);
+        opacity: 0;
+    }
+}
+
+/* Для мобільних пристроїв трохи зменшуємо, щоб не заважала */
+@media (max-width: 768px) {
+    .sos-circle {
+        width: 45px;
+        height: 45px;
+        bottom: 20px;
+        right: 20px;
+        font-size: 1.3rem;
+    }
+}
+/* Маленька кругла кнопка SOS */
+.sos-circle {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 50px;
+    height: 50px;
+    background: #000;
+    border: 2px solid #ff4444;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ff4444;
+    font-size: 1.5rem;
+    text-decoration: none;
+    z-index: 10000;
+    box-shadow: 0 0 15px rgba(255, 68, 68, 0.4);
+    transition: all 0.3s ease;
+}
+
+.sos-circle:hover {
+    transform: scale(1.1);
+    background: #ff4444;
+    color: #000;
+    box-shadow: 0 0 25px rgba(255, 68, 68, 0.8);
+}
+
+/* Ефект пульсації */
+.sos-ripple {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid #ff4444;
+    border-radius: 50%;
+    animation: sos-pulse 2s infinite;
+    pointer-events: none;
+}
+
+@keyframes sos-pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1.8);
+        opacity: 0;
+    }
+}
+
+/* Для мобільних пристроїв трохи зменшуємо, щоб не заважала */
+@media (max-width: 768px) {
+    .sos-circle {
+        width: 45px;
+        height: 45px;
+        bottom: 20px;
+        right: 20px;
+        font-size: 1.3rem;
+    }
+}
+.recruitment-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+        align-items: center;
+    }
+
+    .req-box { display: flex; flex-direction: column; gap: 20px; }
+
+    .req-item { display: flex; gap: 15px; align-items: flex-start; }
+    .req-item i { color: var(--neon); font-size: 1.2rem; margin-top: 3px; filter: drop-shadow(0 0 5px var(--neon)); }
+    .req-item strong { display: block; font-family: 'Oswald'; font-size: 1rem; letter-spacing: 1px; }
+    .req-item p { margin: 3px 0 0; font-size: 0.8rem; color: #888; }
+
+    /* Блок для стрільців */
+    .shooter-offer {
+        background: rgba(0, 255, 136, 0.03);
+        border: 1px dashed var(--neon);
+        padding: 30px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .offer-badge {
+        position: absolute;
+        top: 10px;
+        right: -30px;
+        background: var(--neon);
+        color: #000;
+        font-size: 0.6rem;
+        font-weight: bold;
+        padding: 5px 35px;
+        transform: rotate(40deg);
+        font-family: 'Oswald';
+    }
+
+    .shooter-offer h3 { font-family: 'Oswald'; color: var(--neon); margin-top: 0; text-shadow: 0 0 10px var(--neon-glow); }
+    .shooter-offer p { font-size: 0.85rem; color: #bbb; line-height: 1.5; }
+
+    .test-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.7rem;
+        font-weight: bold;
+        letter-spacing: 1px;
+        color: var(--neon);
+        margin-top: 15px;
+    }
+
+    .pulse-dot {
+        width: 8px; height: 8px; background: var(--neon); border-radius: 50%;
+        animation: dot-pulse 1.5s infinite;
+    }
+
+    @keyframes dot-pulse {
+        0% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(0, 255, 136, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
+    }
+
+    @media (max-width: 768px) {
+        .recruitment-grid { grid-template-columns: 1fr; }
+    }
+    .system-alert {
+    position: fixed;
+    top: -100px; /* Сховано спочатку */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 280px;
+    background: rgba(20, 20, 20, 0.95);
+    border: 1px solid #ff4444;
+    border-radius: 15px;
+    padding: 15px;
+    z-index: 100000;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-family: sans-serif;
+    color: white;
+}
+
+.system-alert.show { top: 20px; } /* Позиція появи */
+
+.alert-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.7rem;
+    color: #ff4444;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.alert-body p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.battery-bar {
+    width: 100%;
+    height: 6px;
+    background: #333;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.battery-fill {
+    width: 5%;
+    height: 100%;
+    background: #ff4444;
+    animation: battery-blink 1s infinite;
+}
+
+@keyframes battery-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+.joke-text {
+    color: var(--neon);
+    font-size: 0.75rem !important;
+    margin-top: 10px !important;
+    border-top: 1px solid #333;
+    padding-top: 10px;
+}
+.desktop-leak-container {
+    position: relative;
+    padding: 40px !important;
+    background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(20,20,20,0.4) 100%) !important;
+    overflow: hidden;
+    border: 1px solid var(--border) !important;
+}
+
+/* Фонові іконки, які "світяться" ззаду */
+.desktop-leak-container::before {
+    content: '';
+    position: absolute;
+    top: -10%; left: -10%;
+    width: 120%; height: 120%;
+    background-image: radial-gradient(var(--neon-glow) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.1;
+    z-index: 1;
+}
+
+.files-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+    position: relative;
+    z-index: 2;
+}
+
+.file-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    cursor: help;
+    transition: 0.3s;
+    filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
+}
+
+.file-item i {
+    font-size: 2.5rem;
+    color: var(--neon);
+    opacity: 0.7;
+}
+
+.file-item span {
+    font-size: 0.65rem;
+    font-family: 'Oswald';
+    text-align: center;
+    color: #fff;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.file-item:hover {
+    transform: scale(1.1);
+}
+
+.file-item:hover i {
+    opacity: 1;
+    filter: drop-shadow(0 0 10px var(--neon));
+}
+
+.warning i { color: #ff4444; }
+
+.system-status {
+    margin-top: 40px;
+    font-family: monospace;
+    font-size: 0.7rem;
+    color: var(--neon);
+    opacity: 0.6;
+    text-align: right;
+}
+
+.blink {
+    animation: blinker 1s linear infinite;
+    color: #ff4444;
+}
+
+@keyframes blinker { 50% { opacity: 0; } }
+</style>
+
+        <div class="glass-panel" data-aos="fade-up">
+            <h2 class="section-header">Наш Автопарк (18)</h2>
+            <div class="fleet-grid">
+                <div class="car-card"><h4>Dodge Challenger SRT</h4><ul class="car-specs"><li><span>Номер:</span><span>AM6196BP</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
+                <div class="car-card"><h4>Dodge Challenger SRT</h4><ul class="car-specs"><li><span>Номер:</span><span>AP7772PM</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
+                <div class="car-card"><h4>BMW X7</h4><ul class="car-specs"><li><span>Номер:</span><span>BM2211IX</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
+                <div class="car-card"><h4>BMW X7</h4><ul class="car-specs"><li><span>Номер:</span><span>AE4448ME</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
+                <div class="car-card"><h4>MB GT63 AMG</h4><ul class="car-specs"><li><span>Номер:</span><span>IE1439EC</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
+                <div class="car-card"><h4>MB V-Class</h4><ul class="car-specs"><li><span>Номер:</span><span>EM6888BP</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
+                <div class="car-card"><h4>McLaren 570S</h4><ul class="car-specs"><li><span>Номер:</span><span>HX1881TX</span></li><li><span>Доступ:</span><span>7+ ранг</span></li></ul></div>
+                <div class="car-card"><h4>MB V-Class</h4><ul class="car-specs"><li><span>Номер:</span><span>XE5353PO</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
+                <div class="car-card"><h4>BMW X6M</h4><ul class="car-specs"><li><span>Номер:</span><span>PB6655HP</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
+                <div class="car-card"><h4>BMW X7</h4><ul class="car-specs"><li><span>Номер:</span><span>TA4716KE</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
+                <div class="car-card"><h4>Range Rover Sport</h4><ul class="car-specs"><li><span>Номер:</span><span>IA8447HM</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
+                <div class="car-card"><h4>Audi A4 B8</h4><ul class="car-specs"><li><span>Номер:</span><span>EA9992TE</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
+                <div class="car-card"><h4>Porsche Panamera</h4><ul class="car-specs"><li><span>Номер:</span><span>KT2250MO</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
+                <div class="car-card"><h4>Chevrolet Camaro</h4><ul class="car-specs"><li><span>Номер:</span><span>OO3565OP</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
+                <div class="car-card"><h4>BMW E39</h4><ul class="car-specs"><li><span>Номер:</span><span>AH7241AC</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
+                <div class="car-card"><h4>Caterham Superlight</h4><ul class="car-specs"><li><span>Номер:</span><span>NULL</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
+                <div class="car-card"><h4>MB SL63 AMG</h4><ul class="car-specs"><li><span>Номер:</span><span>NULL</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
+                <div class="car-card"><h4>Volvo V60</h4><ul class="car-specs"><li><span>Номер:</span><span>HC9711EP</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
+            </div>
+        </div>
+
+        <button onclick="toggleModal(true)" class="cta-btn" data-aos="zoom-in">Стати частиною сім'ї</button>
+    </div>
+
+    <div id="applicationModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.98); z-index:10000; overflow-y:auto; padding:20px 10px; align-items:center; justify-content:center;">
+        <div style="background:#0a0a0a; border:1px solid var(--neon); width:100%; max-width:450px; padding:30px; position:relative; box-shadow: 0 0 30px var(--neon-glow);">
+            <span onclick="toggleModal(false)" style="position:absolute; top:10px; right:15px; font-size:2rem; cursor:pointer; color:#fff;">&times;</span>
+            <h2 style="font-family:'Oswald'; color:var(--neon); text-transform:uppercase; margin-top:0;">АНКЕТА УЧАСНИКА</h2>
+            
+            <div style="margin-bottom:15px;">
+                <label style="display:block; font-size:0.7rem; color:var(--neon); margin-bottom:5px;">1. ВАШ NICK_NAME</label>
+                <input type="text" id="nickName" placeholder="Nazar_Versace" oninput="this.value = this.value.replace(/[^a-zA-Z_]/g, '')" style="width:100%; background:#111; border:1px solid #333; padding:12px; color:#fff; font-size:16px; outline:none; border-radius: 0;">
+            </div>
+
+            <div style="margin-bottom:15px;">
+                <label style="display:block; font-size:0.7rem; color:var(--neon); margin-bottom:5px;">2. СПОСІБ ЗВ'ЯЗКУ</label>
+                <div style="display:flex; gap:10px; margin-bottom:10px;">
+                    <button id="btnTG" onclick="setMethod('Telegram')" class="method-btn active">TELEGRAM</button>
+                    <button id="btnDS" onclick="setMethod('Discord')" class="method-btn">DISCORD</button>
+                </div>
+                <div style="position:relative;">
+                    <span id="prefix" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--neon); font-weight:bold;">@</span>
+                    <input type="text" id="contactNick" placeholder="username" style="width:100%; background:#111; border:1px solid #333; padding:12px 12px 12px 30px; color:#fff; font-size:16px; outline:none; border-radius: 0;">
+                </div>
+            </div>
+
+            <div style="margin-bottom:20px;">
+                <label style="display:block; font-size:0.7rem; color:var(--neon); margin-bottom:10px;">3. ВМІННЯ ТА ДОСВІД</label>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                    <div class="s-item" onclick="this.classList.toggle('act')">Стрільба</div>
+                    <div class="s-item" onclick="this.classList.toggle('act')">Адекватність</div>
+                    <div class="s-item" onclick="this.classList.toggle('act')">Онлайн 3+</div>
+                    <div class="s-item" onclick="this.classList.toggle('act')">Знання правил</div>
+                </div>
+            </div>
+
+            <button onclick="sendToTelegram()" style="width:100%; padding:15px; background:var(--neon); color:#000; border:none; font-family:'Oswald'; font-weight:bold; cursor:pointer; text-transform:uppercase; letter-spacing: 2px;">Відправити дані</button>
+        </div>
+    </div>
+    <div class="glass-panel desktop-leak-container" data-aos="zoom-in">
+    <div class="desktop-overlay">
+        <div class="desktop-content">
+            <h2 class="section-header" style="position:relative; z-index:5;">Секретні матеріали</h2>
+            
+            <div class="files-grid">
+                <div class="file-item">
+                    <i class="fa-solid fa-folder-open"></i>
+                    <span>План захоплення ВЧ</span>
+                </div>
+                <div class="file-item">
+                    <i class="fa-solid fa-file-shield"></i>
+                    <span>Компромат на ворогів</span>
+                </div>
+                <div class="file-item">
+                    <i class="fa-solid fa-vault"></i>
+                    <span>Паролі від общака</span>
+                </div>
+                <div class="file-item warning">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>Список шпигунів.pdf</span>
+                </div>
+                <div class="file-item">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                    <span>Точки збуту</span>
+                </div>
+            </div>
+
+            <div class="system-status">
+                <span class="blink">●</span> REMOTE ACCESS ACTIVE: ADMIN_G_VERSACE
+            </div>
+        </div>
+    </div>
+</div>
+
+    <footer style="text-align:center; padding:50px 20px; opacity:0.3; font-size:0.7rem; border-top: 1px solid var(--border);">
+        ANGELS OF DARKNESS SYNDICATE // UA ONLINE SERVER 04 // 2026
+    </footer>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init({
+        duration: 400,    // Анімація триватиме всього 0.4 секунди (було 1000+)
+        once: true,       // Анімація спрацює лише один раз (це економить ресурси телефону)
+        offset: 50,       // Блок почне з'являтися раніше (не треба гортати до середини екрана)
+        delay: 0,         // Нульова затримка перед початком
+        easing: 'ease-out' // Плавне, але швидке завершення
+    });
+
+        let currentMethod = 'Telegram';
+        let musicStarted = false;
+
+        function playMusic() {
+            const a = document.getElementById('bg-music');
+            if(!musicStarted && a) { a.volume = 0.1; a.play().catch(()=>{}); musicStarted = true; }
+        }
+
+        function toggleModal(s) {
+            document.getElementById('applicationModal').style.display = s ? 'flex' : 'none';
+            document.body.style.overflow = s ? 'hidden' : 'auto';
+        }
+
+        function setMethod(m) {
+            currentMethod = m;
+            document.getElementById('btnTG').classList.toggle('active', m === 'Telegram');
+            document.getElementById('btnDS').classList.toggle('active', m === 'Discord');
+            document.getElementById('prefix').innerText = m === 'Telegram' ? '@' : '#';
+        }
+
+        async function sendToTelegram() {
+            const nick = document.getElementById('nickName').value.trim();
+            const contact = document.getElementById('contactNick').value.trim();
+            const prefix = document.getElementById('prefix').innerText;
+            const skills = Array.from(document.querySelectorAll('.s-item.act')).map(el => el.innerText);
+
+            if(!nick || !contact) return alert("Будь ласка, заповніть усі поля!");
+
+            const message = `🔥 <b>НОВА ЗАЯВКА В СІМ'Ю</b>\n\n` +
+                            `👤 <b>Нік:</b> ${nick}\n` +
+                            `📱 <b>Зв'язок:</b> ${currentMethod} (${prefix}${contact})\n` +
+                            `💪 <b>Вміння:</b> ${skills.join(', ') || 'Не вказано'}`;
+            
+            try {
+                const res = await fetch(`https://api.telegram.org/bot8263268386:AAHZJAtEokFMKn-jAWhoBeA0q0kYLQ98Rbk/sendMessage`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({chat_id: '6638384308', text: message, parse_mode: 'HTML'})
+                });
+                if(res.ok) {
+                    alert("Вашу заявку прийнято!");
+                    toggleModal(false);
+                }
+            } catch(e) { alert("Сталася помилка відправки!"); }
+        }
+        const text = "ANGELS OF DARKNESS";
+let i = 0;
+function typeWriter() {
+    if (i < text.length) {
+        document.querySelector(".hero-title").innerHTML = text.substring(0, i+1) + '<span style="color:var(--neon)">_</span>';
+        i++;
+        setTimeout(typeWriter, 100);
+    }
+    setTimeout(function() {
+    const alertBox = document.getElementById('prank-notification');
+    const textZone = document.getElementById('prank-text');
+
+    // 1. Показуємо фейковий розряд
+    alertBox.classList.add('show');
+
+    // 2. Через 4 секунди "зізнаємося", що це жарт
+    setTimeout(function() {
+        textZone.innerHTML = "Жартую! Ми просто майнимо крипту через твій браузер... (ні)";
+        textZone.classList.add('joke-text');
+        alertBox.style.borderColor = "#00ff88"; // Міняємо колір на зелений
+        
+        // 3. Ховаємо сповіщення ще через 6 секунд
+        setTimeout(function() {
+            alertBox.classList.remove('show');
+        }, 6000);
+        
+    }, 4000);
+
+}, 60000); // 60000 мілісекунд = 1 хвилина
+}
+window.onload = typeWriter;
+document.querySelectorAll('.file-item').forEach(item => {
+    item.addEventListener('click', () => {
+        const fileName = item.querySelector('span').innerText;
+        
+        // Викликаємо фейкову помилку доступу
+        alert(`СИСТЕМА: Помилка доступу до файлу "${fileName}". \n\nВАШ IP ЗАПИСАНО. АДМІНІСТРАЦІЮ ПОВІДОМЛЕНО.`);
+        
+        // Можна додати звук сирени або короткий глітч екрану
+        document.body.style.filter = "invert(1)";
+        setTimeout(() => document.body.style.filter = "none", 100);
+    });
+});
+    </script>
+    <a href="https://t.me/Sypherelle" target="_blank" class="sos-circle" title="Зв'язок з Лідером">
+    <i class="fa-brands fa-telegram"></i>
+    <div class="sos-ripple"></div>
+</a>
+<div id="prank-notification" class="system-alert">
+    <div class="alert-header">
+        <i class="fa-solid fa-battery-empty"></i>
+        <span>Системне попередження</span>
+    </div>
+    <div class="alert-body">
+        <p id="prank-text">НИЗЬКИЙ ЗАРЯД: 1%</p>
+        <div class="battery-bar"><div class="battery-fill"></div></div>
+    </div>
+</div>
+</body>
+</html>
