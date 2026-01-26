@@ -149,6 +149,112 @@
 
         .s-item { border: 1px solid #333; padding: 12px; font-size: 0.75rem; text-align: center; cursor: pointer; color: #888; }
         .s-item.act { border-color: var(--neon) !important; color: var(--neon) !important; background: rgba(0,255,136,0.1); }
+        /* Стиль секції */
+.clown-section-mobile {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 15px;
+}
+
+.clown-card-wrapper {
+    background: rgba(10, 10, 10, 0.9);
+    border: 1px solid rgba(255, 50, 50, 0.3);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.1);
+}
+
+/* Затягуюча кнопка */
+.clown-trigger {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(90deg, #1a0000, #4a0000, #1a0000);
+    background-size: 200% auto;
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    font-family: 'Oswald', sans-serif;
+    transition: 0.3s;
+    animation: gradientShift 3s linear infinite;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+.trigger-text { letter-spacing: 1px; font-weight: bold; font-size: 0.9rem; }
+.trigger-icon { font-size: 1.2rem; }
+
+/* Контент, що розгортається */
+.clown-expandable-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.clown-expandable-content.active {
+    max-height: 1000px; /* Достатня висота для всього тексту */
+}
+
+.c-header-mini { padding: 20px; text-align: center; }
+.c-title-neon { font-family: 'Oswald'; color: #fff; text-shadow: 0 0 10px #ff3232; margin: 0; }
+.c-subtitle-neon { color: #ff3232; font-size: 0.8rem; margin-top: 5px; }
+
+.c-scroll-body { padding: 0 20px 20px 20px; }
+
+.c-info-box-slim {
+    background: rgba(255,255,255,0.03);
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 3px solid #ff3232;
+    margin-bottom: 15px;
+    font-size: 0.85rem;
+    color: #ccc;
+    line-height: 1.4;
+}
+
+.warning-red { border-left-color: #ffaa00; background: rgba(255, 170, 0, 0.05); }
+
+.c-grid-compact {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.c-mini-box {
+    background: rgba(255, 68, 68, 0.05);
+    padding: 12px;
+    border-radius: 8px;
+}
+.c-mini-box strong { display: block; color: #ff3232; font-size: 0.75rem; font-family: 'Oswald'; margin-bottom: 5px; }
+.c-mini-box p { font-size: 0.75rem; color: #999; margin: 0; line-height: 1.2; }
+
+.c-verdict-compact {
+    background: #ff3232;
+    color: #000;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+.c-verdict-compact strong { font-family: 'Oswald'; margin-right: 5px; }
+
+.c-direct-address { text-align: center; padding: 10px; border-top: 1px solid rgba(255,255,255,0.05); }
+.c-direct-address p { font-size: 0.85rem; color: #888; }
+
+.c-fact-footer { font-size: 0.7rem; color: #555; text-align: center; font-style: italic; }
+
+/* Адаптивність для мобільних */
+@media (max-width: 600px) {
+    .c-grid-compact { grid-template-columns: 1fr; }
+    .trigger-text { font-size: 0.8rem; }
+}
     </style>
 </head>
 <body onclick="playMusic()">
@@ -159,11 +265,61 @@
         <h1 class="hero-title" data-aos="zoom-in">...::: CORONA :::...</h1>
         <p style="letter-spacing: 5px; color: var(--neon); font-family: 'Oswald';">UA ONLINE 04 // SYNDICATE</p>
     </header>
+    <div class="clown-section-mobile" data-aos="zoom-in">
+    <div class="clown-card-wrapper">
+        <button class="clown-trigger" onclick="toggleClownInfo()">
+            <span class="trigger-icon">🤡</span>
+            <span class="trigger-text">ОБЕРЕЖНО: ВИЯВЛЕНО КРИСУ (OPEN DATA)</span>
+            <i class="fa-solid fa-chevron-down" id="arrow-icon"></i>
+        </button>
+
+        <div id="clown-content" class="clown-expandable-content">
+            <div class="c-header-mini">
+                <h1 class="c-title-neon">EVENT_HORIZON</h1>
+                <p class="c-subtitle-neon">💩 Історія одного невдахи</p>
+            </div>
+
+            <div class="c-scroll-body">
+                <div class="c-info-box-slim">
+                    <p>Якщо ви бачите цього персонажа в грі, знайте — це наш колишній зам, якого ми вигнали як останнього невдаху. Він був ніким, а ми дали йому все. Але криса залишиться крисою: за порушення правил він отримав копняка під зад.</p>
+                </div>
+
+                <div class="c-grid-compact">
+                    <div class="c-mini-box">
+                        <strong>ЧОМУ ВІН НИЄ?</strong>
+                        <p>Без нашої сім'ї він — порожнє місце. Його "помста" — це істерика дитини.</p>
+                    </div>
+                    <div class="c-mini-box">
+                        <strong>ВІН ЗРАДНИК</strong>
+                        <p>Наплював у спину нам — зрадить і вас. Людина без честі.</p>
+                    </div>
+                </div>
+
+                <div class="c-info-box-slim warning-red">
+                    <p>Смійтеся йому в обличчя. Ми викинули його на смітник історії, і він ніяк не може з цим змиритися.</p>
+                </div>
+
+                <div class="c-verdict-compact">
+                    <strong>ВЕРДИКТ:</strong>
+                    <span>Це просто наше безкоштовне посміховисько.</span>
+                </div>
+
+                <div class="c-direct-address">
+                    <p><strong>[Event_Horizon], заспокойся.</strong> Твій потяг пішов. Лети далі! 🚂💨</p>
+                </div>
+
+                <div class="c-fact-footer">
+                    <span>🤡 Раніше командував складом, а тепер не впорається навіть із соплями.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
     <div class="container">
         <div class="stats-grid">
             <div class="stat-box" data-aos="fade-up"><h2>60+</h2><p>Учасників</p></div>
-            <div class="stat-box" data-aos="fade-up" data-aos-delay="100"><h2>18</h2><p>Автопарк</p></div>
+            <div class="stat-box" data-aos="fade-up" data-aos-delay="100"><h2>17</h2><p>Автопарк</p></div>
             <div class="stat-box" data-aos="fade-up" data-aos-delay="200"><h2>04</h2><p>Сервер</p></div>
             <div class="stat-box" data-aos="fade-up" data-aos-delay="300"><h2>#1</h2><p>Скоро</p></div>
         </div>
@@ -177,7 +333,7 @@
             </div>
         </div>
         <div class="glass-panel" data-aos="fade-up">
-    <h2 class="section-header">Кодекс Синдикату</h2>
+    <h2 class="section-header">Кодекс Сім'ї</h2>
     <div class="code-terminal">
         <div class="scanline"></div>
         <div class="code-content">
@@ -298,10 +454,6 @@
         <div class="dip-column">
             <div class="column-title alliance-text">Союзники</div>
             <div class="dip-list">
-                <div class="dip-card alliance">
-                    <h3>Mortal Family</h3>
-                    <p>Спільні рейди та взаємодопомога.</p>
-                </div>
                 <div class="dip-card alliance">
                     <h3>Street Wolves</h3>
                     <p>Повна підтримка в конфліктах.</p>
@@ -936,12 +1088,195 @@
         font-size: 0.9rem !important;
     }
 }
+.shame-pillar-section {
+    padding: 40px 15px;
+    perspective: 1000px;
+}
+
+.shame-pillar {
+    max-width: 500px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #1a0000 0%, #000 100%);
+    border: 2px solid #ff0000;
+    border-radius: 5px;
+    position: relative;
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.3), inset 0 0 20px rgba(255, 0, 0, 0.1);
+}
+
+/* Ланцюги */
+.pillar-chain {
+    position: absolute;
+    top: -20px;
+    width: 15px;
+    height: 100px;
+    background: repeating-linear-gradient(0deg, #333, #333 10px, #111 10px, #111 20px);
+    border: 2px solid #000;
+    z-index: -1;
+}
+.pillar-chain.left { left: 20px; }
+.pillar-chain.right { right: 20px; }
+
+.pillar-header {
+    background: #ff0000;
+    color: #000;
+    padding: 10px;
+    text-align: center;
+    font-family: 'Oswald';
+    font-weight: bold;
+    letter-spacing: 3px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+}
+
+.pillar-content { padding: 30px 20px; text-align: center; }
+
+.target-photo {
+    width: 120px;
+    height: 120px;
+    border: 3px solid #ff0000;
+    margin: 0 auto 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: #333;
+    position: relative;
+    background: rgba(255, 0, 0, 0.05);
+}
+
+.clown-overlay-emoji {
+    position: absolute;
+    font-size: 3rem;
+    top: -10px;
+    right: -10px;
+}
+
+.stamp-rejected {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    border: 4px solid #ff0000;
+    color: #ff0000;
+    padding: 2px 10px;
+    font-family: 'Oswald';
+    font-weight: 900;
+    font-size: 1.2rem;
+    opacity: 0.8;
+}
+
+.target-name { font-family: 'Oswald'; font-size: 1.8rem; color: #fff; margin: 10px 0 5px; }
+.target-status { color: #ff0000; font-size: 0.8rem; font-weight: bold; letter-spacing: 1px; }
+
+.shame-reason { margin: 20px 0; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 5px; }
+.reason-tag { font-size: 0.7rem; color: #ff0000; font-weight: bold; margin-bottom: 5px; }
+.shame-reason p { font-size: 0.85rem; color: #bbb; margin: 0; line-height: 1.4; }
+
+/* Кнопка */
+.spit-btn {
+    background: transparent;
+    border: 1px solid #ff0000;
+    color: #ff0000;
+    padding: 10px 20px;
+    font-family: 'Oswald';
+    cursor: pointer;
+    transition: 0.2s;
+}
+.spit-btn:hover { background: #ff0000; color: #000; transform: scale(1.05); }
+.spit-btn:active { transform: scale(0.95); }
+
+#spit-counter { font-size: 0.7rem; color: #555; margin-top: 10px; }
+
+.pillar-footer {
+    padding: 15px;
+    font-size: 0.7rem;
+    color: #444;
+    text-align: center;
+    border-top: 1px solid rgba(255, 0, 0, 0.1);
+    font-style: italic;
+}
+/* Стилі для гарного вікна */
+.custom-alert-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: none; /* Сховано за замовчуванням */
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    backdrop-filter: blur(5px);
+}
+
+.custom-alert-box {
+    width: 90%;
+    max-width: 400px;
+    background: #0a0a0a;
+    border: 1px solid #ff0000;
+    position: relative;
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.2);
+    animation: alertSpawn 0.3s cubic-bezier(0.17, 0.89, 0.32, 1.28);
+}
+
+@keyframes alertSpawn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.alert-border-line {
+    height: 4px;
+    background: #ff0000;
+    width: 100%;
+}
+
+.alert-content {
+    padding: 30px;
+    text-align: center;
+}
+
+.alert-icon {
+    font-size: 3rem;
+    color: #ff0000;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5));
+}
+
+#alert-title {
+    font-family: 'Oswald', sans-serif;
+    color: #fff;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+#alert-message {
+    color: #bbb;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+.alert-close-btn {
+    background: #ff0000;
+    color: #000;
+    border: none;
+    padding: 10px 30px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.alert-close-btn:hover {
+    background: #fff;
+    transform: translateY(-2px);
+}
 </style>
 
         <div class="glass-panel" data-aos="fade-up">
-            <h2 class="section-header">Наш Автопарк (18)</h2>
+            <h2 class="section-header">Наш Автопарк (17)</h2>
             <div class="fleet-grid">
-                <div class="car-card"><h4>Dodge Challenger SRT</h4><ul class="car-specs"><li><span>Номер:</span><span>AM6195BP</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
+                <div class="car-card"><h4>Dodge Challenger SRT</h4><ul class="car-specs"><li><span>Номер:</span><span>AM6196BP</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
                 <div class="car-card"><h4>Dodge Challenger SRT</h4><ul class="car-specs"><li><span>Номер:</span><span>AP7772PM</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
                 <div class="car-card"><h4>BMW X7</h4><ul class="car-specs"><li><span>Номер:</span><span>BM2211IX</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
                 <div class="car-card"><h4>BMW X7</h4><ul class="car-specs"><li><span>Номер:</span><span>AE4448ME</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
@@ -958,11 +1293,16 @@
                 <div class="car-card"><h4>BMW E39</h4><ul class="car-specs"><li><span>Номер:</span><span>AH7241AC</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
                 <div class="car-card"><h4>Caterham Superlight</h4><ul class="car-specs"><li><span>Номер:</span><span>NULL</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
                 <div class="car-card"><h4>MB SL63 AMG</h4><ul class="car-specs"><li><span>Номер:</span><span>NULL</span></li><li><span>Доступ:</span><span>3+ ранг</span></li></ul></div>
-                <div class="car-card"><h4>BMW M8 Cabriolet</h4><ul class="car-specs"><li><span>Номер:</span><span>Null</span></li><li><span>Доступ:</span><span>5+ ранг</span></li></ul></div>
+            
             </div>
         </div>
 
-        <button onclick="toggleModal(true)" class="cta-btn" data-aos="zoom-in">Стати частиною сім'ї</button>
+        <div id="join-action-area">
+    <button id="mainJoinBtn" onclick="toggleModal(true)" class="cta-btn" data-aos="zoom-in">Стати частиною сім'ї</button>
+    <div id="alreadyJoinedLabel" style="display:none; color:var(--neon); font-family:'Oswald'; border:1px solid var(--neon); padding:10px 20px; text-transform:uppercase; letter-spacing:1px;">
+        ✅ Заявка подана (Очікуйте)
+    </div>
+</div>
     </div>
 
     <div id="applicationModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.98); z-index:10000; overflow-y:auto; padding:20px 10px; align-items:center; justify-content:center;">
@@ -1001,96 +1341,53 @@
         </div>
     </div>
 </div>
+<div class="shame-pillar-section" data-aos="flip-left">
+    <div class="shame-pillar">
+        <div class="pillar-chain left"></div>
+        <div class="pillar-chain right"></div>
 
-<div class="container" style="margin-bottom: 80px;">
-    <div id="main-terminal" class="terminal-vault" style="background: #050505; border: 3px solid #00ff88; padding: 40px; position: relative; color: #fff;">
-        <div id="block-screen" style="display:none; position:absolute; inset:0; background:#000; z-index:100; align-items:center; justify-content:center; flex-direction:column; border:2px solid red;">
-            <h2 style="color:red; font-family:'Oswald';">ACCESS_DENIED</h2>
-            <p style="font-size:0.7rem;">ВИ ВЖЕ ОТРИМАЛИ СВІЙ БОНУС. ПОВТОРНИЙ ВХІД НЕМОЖЛИВИЙ.</p>
+        <div class="pillar-header">
+            <i class="fa-solid fa-link-slash"></i>
+            <span>СТОВП ГАНЬБИ СИНДИКАТУ</span>
+            <i class="fa-solid fa-link-slash"></i>
         </div>
 
-        <div class="stat-row" style="display: flex; justify-content: space-between; font-size: 0.6rem; color: #00ff88; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px;">
-            <span>Взломай сейф з 500.000 грн...</span>
-            <span id="node-counter">NODE: 1/10</span>
-        </div>
-
-        <div class="node-grid" id="nodes" style="display: grid; grid-template-columns: repeat(10, 1fr); gap: 8px; margin: 20px 0;">
-            <div class="node" style="height: 10px; background: #111; border: 1px solid #222;"></div>
-            <div class="node" style="height: 10px; background: #111; border: 1px solid #222;"></div>
-            <div class="node" style="height: 10px; background: #111; border: 1px solid #222;"></div>
-            <div class="node" style="height: 10px; background: #111; border: 1px solid #222;"></div>
-            <div class="node" style="height: 10px; background: #111; border: 1px solid #222;"></div>
-            <div class="node" style="height: 10px; background: #111; border: 1px solid #222;"></div>
-            <div class="node" style="height: 10px; background: #111; border: 1px solid #222;"></div>
-            <div class="node" style="height: 10px; background: #111; border: 1px solid #222;"></div>
-            <div class="node" style="height: 10px; background: #111; border: 1px solid #222;"></div>
-            <div class="node" style="height: 10px; background: #111; border: 1px solid #222;"></div>
-        </div>
-
-        <div id="quest-box" style="min-height: 130px;">
-            <h3 id="quest-title" style="color:#00ff88; font-family:'Oswald'; text-transform:uppercase; margin-bottom:10px;">Ініціалізація...</h3>
-            <p id="quest-desc" style="color:#888; font-size:0.9rem; line-height:1.5;"></p>
-        </div>
-
-        <div style="position:relative; margin-top:30px;">
-            <input type="text" id="vault-input" placeholder="Введіть код..." autocomplete="off" style="width:100%; background:transparent; border:none; border-bottom:2px solid #00ff88; color:#fff; padding:15px; font-size:1.2rem; outline:none; font-family:'Oswald';">
-            <button onclick="checkStep()" style="position:absolute; right:0; top:0; height:100%; background:#00ff88; color:#000; border:none; padding:0 25px; font-weight:bold; cursor:pointer; font-family:'Oswald';">EXECUTE</button>
-        </div>
-        
-        <p style="margin-top:20px; font-size:0.65rem; color:#ff4444; text-align:center;">УВАГА: СИСТЕМА СКИНЕ ПРОГРЕС ПРИ ЗГОРТАННІ СТОРІНКИ</p>
-    </div>
-</div>
-
-<div id="reward-form-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.98); z-index:999999; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(10px);">
-    <div class="glass-panel" style="max-width:450px; width:100%; border:2px solid gold; padding: 30px; background: #111; color: #fff;">
-        <div style="text-align:center; margin-bottom:25px;">
-            <div style="font-size:3rem; color:gold; margin-bottom:15px;">🏆</div>
-            <h2 style="font-family:'Oswald'; color:gold; margin:0; letter-spacing: 2px;">Нагороду розблоковано: 500.000 грн</h2>
-            <p style="font-size:0.75rem; color:#888; margin-top: 10px;">Ви пройшли випробування. Введіть дані для отримання коштів.</p>
-        </div>
-
-        <div style="display:flex; flex-direction:column; gap:15px;">
-            <div>
-                <label style="display:block; font-size:0.6rem; color:gold; margin-bottom:5px;">NICK_NAME В ГРІ</label>
-                <input type="text" id="rew-nick" placeholder="Nazar_Versace" style="width:100%; background:#000; border:1px solid #333; padding:12px; color:#fff; outline:none;">
-            </div>
-            <div>
-                <label style="display:block; font-size:0.6rem; color:gold; margin-bottom:5px;">НОМЕР БУДИНКУ</label>
-                <div style="position:relative;">
-                    <span style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:gold;">#</span>
-                    <input type="text" id="rew-house" placeholder="444" style="width:100%; background:#000; border:1px solid #333; padding:12px 12px 12px 28px; color:#fff; outline:none;">
+        <div class="pillar-content">
+            <div class="target-zone">
+                <div class="target-photo">
+                    <span class="clown-overlay-emoji">🤡</span>
+                    <i class="fa-solid fa-user-ninja"></i>
+                    <div class="stamp-rejected">REJECTED</div>
                 </div>
+                <h2 class="target-name">EVENT_HORIZON</h2>
+                <div class="target-status">СТАТУС: ПОСМІХОВИСЬКО</div>
             </div>
-            <div>
-                <label style="display:block; font-size:0.6rem; color:gold; margin-bottom:5px;">НОМЕР ТЕЛЕФОНУ (1-6 СИМВОЛІВ)</label>
-                <input type="text" id="rew-phone" placeholder="123456" maxlength="6" style="width:100%; background:#000; border:1px solid #333; padding:12px; color:#fff; outline:none;">
+
+            <div class="shame-reason">
+                <div class="reason-tag">ПРИЧИНА ЗАСЛАННЯ:</div>
+                <p>Зрада сім'ї, порушення кодексу та хронічна істерика на фоні вигнання. Об'єкт визнаний «щуром» та позбавлений права на повагу.</p>
             </div>
-            <button onclick="sendRewardToTelegram()" style="width:100%; padding:15px; background:gold; color:#000; font-family:'Oswald'; font-weight:bold; border:none; cursor:pointer; margin-top:10px; transition:0.3s; letter-spacing: 1px;">ОТРИМАТИ ВИПЛАТУ</button>
+
+            <button class="spit-btn" onclick="spitOnTraitor()">
+                <i class="fa-solid fa-droplet"></i> ПЛЮНУТИ В ОБЛИЧЧЯ
+            </button>
+            <div id="spit-counter">Вже плюнули: <span id="spit-count">665</span> разів</div>
+        </div>
+
+        <div class="pillar-footer">
+            ВИГНАНИЙ ТА ЗАБУТИЙ. ДОСТУП ДО СІМ'Ї ЗАБОРОНЕНО НАЗАВЖДИ.
         </div>
     </div>
 </div>
-
-<div class="access-sector">
-    <div class="lock-center" onclick="accessDeniedAlert()">
-        <i class="fa-solid fa-lock"></i>
-        <div class="no-access-label">У ВАС НЕМАЄ ДОСТУПУ</div>
-    </div>
-    <div class="chains-overlay"></div>
-    <div class="blur-content">
-        <h2>СКЛАД №14: БОЄПРИПАСИ</h2>
-        <p>Кількість патронів 7.62: 50,000 шт. Гранати РГД-5: 200 шт. РПГ-7: 12 одиниць. Постачальник: Невідомо. Дата прибуття: 24.01.2026.</p>
-    </div>
-</div>
-
-<div class="access-sector">
-    <div class="lock-center" onclick="accessDeniedAlert()">
-        <i class="fa-solid fa-user-shield"></i>
-        <div class="no-access-label">У ВАС НЕМАЄ ДОСТУПУ</div>
-    </div>
-    <div class="chains-overlay"></div>
-    <div class="blur-content">
-        <h2>ЧОРНА КАСА СИНДИКАТУ</h2>
-        <p>Переказ на офшор: 2,400,000$. Відмивання через казино "Red Dragon". Поточний баланс крипто-гаманця: 45.8 BTC. Відповідальний: Скарбник.</p>
+<div id="custom-alert" class="custom-alert-overlay">
+    <div class="custom-alert-box">
+        <div class="alert-border-line"></div>
+        <div class="alert-content">
+            <i class="fa-solid fa-droplet alert-icon"></i>
+            <h3 id="alert-title">ДІЯ ВИКОНАНА</h3>
+            <p id="alert-message">Повідомлення тут...</p>
+            <button class="alert-close-btn" onclick="closeCustomAlert()">ПРИЙНЯТО</button>
+        </div>
     </div>
 </div>
 
@@ -1129,30 +1426,46 @@
         }
 
         async function sendToTelegram() {
-            const nick = document.getElementById('nickName').value.trim();
-            const contact = document.getElementById('contactNick').value.trim();
-            const prefix = document.getElementById('prefix').innerText;
-            const skills = Array.from(document.querySelectorAll('.s-item.act')).map(el => el.innerText);
+    const nick = document.getElementById('nickName').value;
+    const contact = document.getElementById('contactNick').value;
+    const skills = Array.from(document.querySelectorAll('.s-item.act')).map(el => el.innerText).join(', ');
 
-            if(!nick || !contact) return alert("Будь ласка, заповніть усі поля!");
+    if(!nick || !contact) {
+        alert('Будь ласка, заповніть Nick_Name та контактні дані!');
+        return;
+    }
 
-            const message = `🔥 <b>НОВА ЗАЯВКА В СІМ'Ю</b>\n\n` +
-                            `👤 <b>Нік:</b> ${nick}\n` +
-                            `📱 <b>Зв'язок:</b> ${currentMethod} (${prefix}${contact})\n` +
-                            `💪 <b>Вміння:</b> ${skills.join(', ') || 'Не вказано'}`;
-            
-            try {
-                const res = await fetch(`https://api.telegram.org/bot8263268386:AAHZJAtEokFMKn-jAWhoBeA0q0kYLQ98Rbk/sendMessage`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({chat_id: '6638384308', text: message, parse_mode: 'HTML'})
-                });
-                if(res.ok) {
-                    alert("Вашу заявку прийнято!");
-                    toggleModal(false);
-                }
-            } catch(e) { alert("Сталася помилка відправки!"); }
+    const message = `<b>🔔 НОВА АНКЕТА УЧАСНИКА</b>\n\n` +
+                    `👤 <b>Нік:</b> ${nick}\n` +
+                    `📱 <b>Зв'язок:</b> ${currentMethod}: @${contact}\n` +
+                    `💪 <b>Вміння:</b> ${skills || 'Не вказано'}`;
+
+    try {
+        const response = await fetch(`https://api.telegram.org/bot8263268386:AAHZJAtEokFMKn-jAWhoBeA0q0kYLQ98Rbk/sendMessage`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                chat_id: '6638384308',
+                text: message,
+                parse_mode: 'HTML'
+            })
+        });
+
+        if(response.ok) {
+            alert('Дані успішно відправлені!');
+            // Зберігаємо мітку в пам'ять
+            localStorage.setItem('form_submitted', 'true');
+            // Закриваємо модалку
+            toggleModal(false);
+            // Оновлюємо кнопки на сторінці
+            checkSubmissionStatus();
+        } else {
+            alert('Помилка при відправці.');
         }
+    } catch (error) {
+        alert('Сталася помилка. Перевірте з\'єднання.');
+    }
+}
         const text = "...::: CORONA :::...";
 let i = 0;
 function typeWriter() {
@@ -1183,115 +1496,66 @@ function typeWriter() {
 
 }, 360000); // 60000 мілісекунд = 1 хвилина
 }
-window.onload = typeWriter;
-document.querySelectorAll('.file-item').forEach(item => {
-    item.addEventListener('click', () => {
-        const fileName = item.querySelector('span').innerText;
-        
-        // Викликаємо фейкову помилку доступу
-        alert(`СИСТЕМА: Помилка доступу до файлу "${fileName}". \n\nВАШ IP ЗАПИСАНО. АДМІНІСТРАЦІЮ ПОВІДОМЛЕНО.`);
-        
-        // Можна додати звук сирени або короткий глітч екрану
-        document.body.style.filter = "invert(1)";
-        setTimeout(() => document.body.style.filter = "none", 100);
-    });
-});
-// Набір підступних запитань
-const trollQuests = [
-    { q: "АВТОПАРК", d: "Який номерний знак у нашого Dodge Challenger? (Він у списку вище, пиши з малої букви)", a: "am6195bp" },
-    { q: "ЛОГІКА", d: "Скільки всього автомобілів представлено в розділі 'НАШ АВТОПАРК'?", a: "18" },
-    { q: "СТАТУС", d: "Яка посада йде після 'Лидер' у списку складу? (Якщо немає — пиши 'немає')", a: "немає" },
-    { q: "МАТЕМАТИКА", d: "Кількість наших авто (18) помножити на 10 і додати 20. Скільки вийде?", a: "200" },
-    { q: "ГЕОГРАФІЯ", d: "Яка ПЕРША буква назви міста, де знаходиться головний аеропорт країни?", a: "б" },
-    { q: "ДИЗАЙН", d: "Який основний колір кнопок 'ВСТУПИТИ' на цьому сайті? (слово з 7 літер)", a: "зелений" },
-    { q: "СИСТЕМА", d: "Напишіть назву нашої родини англійськими малими літерами.", a: "corona" },
-    { q: "ЧАС", d: "Скільки годин у 2-х повних сутках?", a: "48" },
-    { q: "ЛОКАЦІЯ", d: "На яку літеру закінчується назва міста Вишневе?", a: "е" },
-    { q: "ФІНАЛ", d: "Введіть фразу: 'я люблю свою сім'ю' (без пробіла в кінці та з малої букви)", a: "я люблю свою сім'ю" }
-];
 
-let currentTrollStep = 0;
-
-function initTrollVault() {
-    // Блокування, якщо вже виграв
-    if (localStorage.getItem('syndicate_500k_claimed') === 'true') {
-        document.getElementById('block-screen').style.display = 'flex';
-        return;
-    }
+function toggleClownInfo() {
+    const content = document.getElementById('clown-content');
+    const arrow = document.getElementById('arrow-icon');
     
-    const q = trollQuests[currentTrollStep];
-    document.getElementById('quest-title').innerText = `NODE_${currentTrollStep + 1}: ${q.q}`;
-    document.getElementById('quest-desc').innerText = q.d;
-    document.getElementById('node-counter').innerText = `NODE: ${currentTrollStep + 1}/10`;
-    document.getElementById('vault-input').value = "";
+    content.classList.toggle('active');
     
-    // Оновлення вогників прогресу
-    const nodes = document.querySelectorAll('.node');
-    nodes.forEach((n, idx) => {
-        n.style.background = (idx < currentTrollStep) ? "#00ff88" : "#111";
-        n.style.boxShadow = (idx < currentTrollStep) ? "0 0 10px #00ff88" : "none";
-    });
-}
-
-function checkStep() {
-    const val = document.getElementById('vault-input').value.toLowerCase().trim();
-    if (val === trollQuests[currentTrollStep].a) {
-        currentTrollStep++;
-        if (currentTrollStep >= 10) {
-            document.getElementById('reward-form-overlay').style.display = 'flex';
-        } else {
-            initTrollVault();
-        }
+    if (content.classList.contains('active')) {
+        arrow.style.transform = 'rotate(180deg)';
     } else {
-        alert("🚨 ПОМИЛКА ДЕШИФРУВАННЯ! ПРОГРЕС ВТРАЧЕНО.");
-        currentTrollStep = 0;
-        initTrollVault();
+        arrow.style.transform = 'rotate(0deg)';
     }
 }
+function spitOnTraitor() {
+    const countElement = document.getElementById('spit-count');
+    let currentCount = parseInt(countElement.innerText);
+    countElement.innerText = currentCount + 1;
+    
+    // Ефект тряски блоку
+    const pillar = document.querySelector('.shame-pillar');
+    pillar.style.animation = 'shake 0.2s ease-in-out';
+    setTimeout(() => { pillar.style.animation = ''; }, 200);
 
-// ПРАНК: Скидання при згортанні вкладки
-document.addEventListener("visibilitychange", () => {
-    if (document.hidden && currentTrollStep > 0) {
-        currentTrollStep = 0;
-        initTrollVault();
-        console.log("Progress reset due to window switch.");
-    }
-});
+    // Виклик гарного вікна замість alert
+    showCustomAlert("УСПІШНИЙ ПЛЮВОК", "💧 Ви плюнули в обличчя зраднику! <br><br><b>Харизма +1</b><br><b>Авторитет Event_Horizon -100</b>");
+}
 
-async function sendRewardToTelegram() {
-    const nick = document.getElementById('rew-nick').value.trim();
-    const house = document.getElementById('rew-house').value.trim();
-    const phone = document.getElementById('rew-phone').value.trim();
+function showCustomAlert(title, message) {
+    document.getElementById('alert-title').innerHTML = title;
+    document.getElementById('alert-message').innerHTML = message;
+    document.getElementById('custom-alert').style.display = 'flex';
+}
 
-    if (!nick || !phone) return alert("Будь ласка, заповніть Нік та Телефон!");
+function closeCustomAlert() {
+    document.getElementById('custom-alert').style.display = 'none';
+}
 
-    const text = `💰 <b>ПЕРЕМОЖЕЦЬ КВЕСТУ на (500,000$)</b>\n\n` +
-                 `👤 <b>Нік:</b> ${nick}\n` +
-                 `🏠 <b>Будинок:</b> #${house || 'немає'}\n` +
-                 `📞 <b>Телефон:</b> ${phone}`;
-
-    try {
-        const response = await fetch(`https://api.telegram.org/bot8263268386:AAHZJAtEokFMKn-jAWhoBeA0q0kYLQ98Rbk/sendMessage`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ chat_id: '6638384308', text: text, parse_mode: 'HTML' })
-        });
-
-        if (response.ok) {
-            alert("УСПІХ! Дані надіслані Лідеру. Очікуйте виплати.");
-            localStorage.setItem('syndicate_500k_claimed', 'true');
-            location.reload(); // Перезавантаження для блокування терміналу
+// Додай анімацію тряски в CSS
+/*
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    100% { transform: translateX(0); }
+}
+*/
+function checkSubmissionStatus() {
+    if (localStorage.getItem('form_submitted') === 'true') {
+        const btn = document.getElementById('mainJoinBtn');
+        const label = document.getElementById('alreadyJoinedLabel');
+        
+        if(btn && label) {
+            btn.style.display = 'none'; // Ховаємо кнопку
+            label.style.display = 'inline-block'; // Показуємо напис
         }
-    } catch (e) {
-        alert("Помилка відправки. Перевірте з'єднання.");
     }
 }
 
-// Запуск при завантаженні сторінки
-document.addEventListener("DOMContentLoaded", initTrollVault);
-function accessDeniedAlert() {
-    alert("🛑 ОБ'ЄКТ ПІД ОХОРОНОЮ!\n\nЦей сектор заблоковано ланцюгами безпеки Сім'ї.\n\nДоступ дозволено лише перевіреним бійцям рівня 'Elite'.");
-}
+// Запускаємо перевірку відразу після завантаження сторінки
+document.addEventListener('DOMContentLoaded', checkSubmissionStatus);
     </script>
     <a href="https://t.me/Sypherelle" target="_blank" class="sos-circle" title="Зв'язок з Лідером">
     <i class="fa-brands fa-telegram"></i>
@@ -1309,6 +1573,3 @@ function accessDeniedAlert() {
 </div>
 </body>
 </html>
-
-
-
