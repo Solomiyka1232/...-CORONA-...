@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L8L5EG6ER2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-L8L5EG6ER2');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CORONA SYNDICATE | ОФІЦІЙНИЙ САЙТ</title>
@@ -21,24 +29,16 @@
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
-        html {
-    scroll-behavior: smooth;
-    height: -webkit-fill-available; /* Виправлення висоти для мобільних браузерів */
-}
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
 
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Inter', sans-serif;
-    background: var(--bg-dark);
-    color: var(--text-main);
-    overflow-x: hidden;
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
-    /* Запобігання горизонтальному смиканню на iPhone */
-    position: relative; 
-    width: 100%;
-}
         .container {
             width: 90%;
             max-width: 1200px;
@@ -259,18 +259,14 @@ body {
             .code-item { grid-template-columns: 1fr; gap: 10px; }
             .section-title { font-size: 2.2rem; }
             .hero h1 { 
-    font-size: 14vw; 
-    background: linear-gradient(90deg, #fff, #0047FF, #fff);
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    /* Об'єднуємо анімації в один рядок */
-    animation: heroReveal 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards, shine 3s linear infinite;
-    /* Додаємо апаратне прискорення для Safari */
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-}
+                font-size: 14vw; 
+                animation: heroReveal 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+                background: linear-gradient(90deg, #fff, #0047FF, #fff);
+                background-size: 200% auto;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                animation: shine 3s linear infinite, heroReveal 1.5s ease-out;
+            }
             .glass-panel { padding: 25px 15px; width: 100%; }
             .leader-box { padding: 20px 0; }
         }
@@ -567,22 +563,8 @@ body {
 }
 /* Модальні вікна та форми */
 .modal-overlay {
-    display: none; 
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%;
-    background: rgba(0,0,0,0.9); 
-    z-index: 9999; 
-    align-items: center; 
-    justify-content: center; 
-    -webkit-backdrop-filter: blur(8px); /* Обов'язково для Safari */
-    backdrop-filter: blur(8px);
-}
-/* Окремий клас для активації через JS */
-.modal-overlay.active {
-    display: flex !important;
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.9); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(8px);
 }
 .modal-content { width: 90%; max-width: 450px; padding: 35px; border: 1px solid #0047FF; background: #0a0a0a; position: relative; }
 .close-btn { position: absolute; top: 10px; right: 15px; background: none; border: none; color: #fff; font-size: 28px; cursor: pointer; }
@@ -904,7 +886,6 @@ body {
     font-family: 'Courier New', monospace;
     color: var(--accent-blue);
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch; /* Плавна прокрутка для iPhone */
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -1002,7 +983,7 @@ body {
 
     <header class="hero">
         <div class="hero-tag">Приватний Синдикат</div>
-        <h1 data-aos="fade-up" data-aos-duration="1200">CORONA</h1>
+        <h1 data-aos="zoom-in">CORONA</h1>
     </header>
 
     <section class="section-stats">
@@ -1162,6 +1143,7 @@ body {
     <section class="section-diplomacy">
         <div class="container">
             <h2 class="section-title" data-aos="fade-up">ЗОВНІШНЯ<br><span style="color: var(--accent-blue)">ПОЛІТИКА</span></h2>
+            
             <div class="diplomacy-grid">
                 <div class="dip-card" data-aos="fade-up">
                     <span class="dip-type status-green">● СОЮЗНИКИ</span>
@@ -1193,6 +1175,7 @@ body {
             </div>
         </div>
     </section>
+</section>
 <section class="section-faq">
         <div class="container">
             <h2 class="section-title" data-aos="fade-up">ЧАСТІ<br><span style="color: var(--accent-blue)">ЗАПИТАННЯ</span></h2>
@@ -1307,11 +1290,12 @@ body {
             </div>
 
             <div class="join-footer">
-                <button id="btnJoinRecruitment" class="btn-apply" style="width: 100%; border: none; cursor: pointer;">ПОДАТИ ЗАЯВКУ</button>
+                <button class="btn-apply" onclick="gtag('event', 'click_apply_button'); openModal('modalApply')">
+    ПОДАТИ ЗАЯВКУ
+</button>
             </div>
         </div>
     </div>
-</section>
 
     </div>
         </div>
@@ -1363,13 +1347,14 @@ let selectedSkills = [];
 
 // Функція відкриття меню
 window.openTypeMenu = function() {
-            closeAllModals();
-            if(localStorage.getItem('sent')) {
-                document.getElementById('modalAlreadySent').classList.add('active');
-                return;
-            }
-            document.getElementById('modalTypeSelection').classList.add('active');
-        };
+    if(localStorage.getItem('sent')) {
+        closeAllModals();
+        document.getElementById('modalAlreadySent').style.display = 'flex';
+        return;
+    }
+    closeAllModals();
+    document.getElementById('modalTypeSelection').style.display = 'flex';
+};
 
 // Прив'язка кнопок після завантаження сторінки
 document.addEventListener('DOMContentLoaded', function() {
@@ -1380,18 +1365,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 window.openSkills = function(type) {
-            currentFormType = type;
-            closeAllModals();
-            document.getElementById('modalSkillsSelection').classList.add('active');
-        };
-
-        window.openFinalForm = function() {
-            closeAllModals();
-            const finalModal = document.getElementById('modalFinalForm');
-            finalModal.classList.add('active');
-            document.getElementById('finalTitle').innerText = currentFormType;
-            setContact('tg');
-        };
+    currentFormType = type;
+    closeAllModals();
+    document.getElementById('modalSkillsSelection').style.display = 'flex';
+};
 
 window.toggleSkill = function(btn) {
     btn.classList.toggle('selected');
@@ -1403,13 +1380,16 @@ window.toggleSkill = function(btn) {
     }
 };
 
+window.openFinalForm = function() {
+    closeAllModals();
+    document.getElementById('modalFinalForm').style.display = 'flex';
+    document.getElementById('finalTitle').innerText = currentFormType;
+    setContact('tg');
+};
 
 window.closeAllModals = function() {
-            document.querySelectorAll('.modal-overlay').forEach(m => {
-                m.classList.remove('active');
-                m.style.display = 'none'; 
-            });
-        };
+    document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
+};
 
 window.setContact = function(mode) {
     contactMode = mode;
