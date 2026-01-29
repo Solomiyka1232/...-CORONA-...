@@ -21,16 +21,24 @@
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
-        body, html {
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-main);
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
+        html {
+    scroll-behavior: smooth;
+    height: -webkit-fill-available; /* Виправлення висоти для мобільних браузерів */
+}
 
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-main);
+    overflow-x: hidden;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    /* Запобігання горизонтальному смиканню на iPhone */
+    position: relative; 
+    width: 100%;
+}
         .container {
             width: 90%;
             max-width: 1200px;
@@ -251,14 +259,18 @@
             .code-item { grid-template-columns: 1fr; gap: 10px; }
             .section-title { font-size: 2.2rem; }
             .hero h1 { 
-                font-size: 14vw; 
-                animation: heroReveal 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-                background: linear-gradient(90deg, #fff, #0047FF, #fff);
-                background-size: 200% auto;
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                animation: shine 3s linear infinite, heroReveal 1.5s ease-out;
-            }
+    font-size: 14vw; 
+    background: linear-gradient(90deg, #fff, #0047FF, #fff);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /* Об'єднуємо анімації в один рядок */
+    animation: heroReveal 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards, shine 3s linear infinite;
+    /* Додаємо апаратне прискорення для Safari */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+}
             .glass-panel { padding: 25px 15px; width: 100%; }
             .leader-box { padding: 20px 0; }
         }
@@ -555,8 +567,22 @@
 }
 /* Модальні вікна та форми */
 .modal-overlay {
-    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.9); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(8px);
+    display: none; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    background: rgba(0,0,0,0.9); 
+    z-index: 9999; 
+    align-items: center; 
+    justify-content: center; 
+    -webkit-backdrop-filter: blur(8px); /* Обов'язково для Safari */
+    backdrop-filter: blur(8px);
+}
+/* Окремий клас для активації через JS */
+.modal-overlay.active {
+    display: flex !important;
 }
 .modal-content { width: 90%; max-width: 450px; padding: 35px; border: 1px solid #0047FF; background: #0a0a0a; position: relative; }
 .close-btn { position: absolute; top: 10px; right: 15px; background: none; border: none; color: #fff; font-size: 28px; cursor: pointer; }
@@ -878,6 +904,7 @@
     font-family: 'Courier New', monospace;
     color: var(--accent-blue);
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* Плавна прокрутка для iPhone */
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -975,7 +1002,7 @@
 
     <header class="hero">
         <div class="hero-tag">Приватний Синдикат</div>
-        <h1 data-aos="zoom-in">CORONA</h1>
+        <h1 data-aos="fade-up" data-aos-duration="1200">CORONA</h1>
     </header>
 
     <section class="section-stats">
@@ -1135,7 +1162,6 @@
     <section class="section-diplomacy">
         <div class="container">
             <h2 class="section-title" data-aos="fade-up">ЗОВНІШНЯ<br><span style="color: var(--accent-blue)">ПОЛІТИКА</span></h2>
-            
             <div class="diplomacy-grid">
                 <div class="dip-card" data-aos="fade-up">
                     <span class="dip-type status-green">● СОЮЗНИКИ</span>
@@ -1167,7 +1193,6 @@
             </div>
         </div>
     </section>
-</section>
 <section class="section-faq">
         <div class="container">
             <h2 class="section-title" data-aos="fade-up">ЧАСТІ<br><span style="color: var(--accent-blue)">ЗАПИТАННЯ</span></h2>
@@ -1286,6 +1311,7 @@
             </div>
         </div>
     </div>
+</section>
 
     </div>
         </div>
@@ -1323,203 +1349,193 @@
     </footer>
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-    <script>
-        AOS.init({ duration: 800, once: true });
+<script>
+    // --- ІНІЦІАЛІЗАЦІЯ ---
+    AOS.init({ duration: 800, once: true });
 
-const BOT_TOKEN = "8263268386:AAHZJAtEokFMKn-jAWhoBeA0q0kYLQ98Rbk";
-const CHAT_ID = "6638384308";
+    const BOT_TOKEN = "8263268386:AAHZJAtEokFMKn-jAWhoBeA0q0kYLQ98Rbk";
+    const CHAT_ID = "6638384308";
 
-let currentFormType = "";
-let contactMode = "tg";
-let selectedSkills = [];
+    let currentFormType = "";
+    let selectedSkills = [];
 
-// Функція відкриття меню
-window.openTypeMenu = function() {
-    if(localStorage.getItem('sent')) {
+    // --- ФУНКЦІЇ МОДАЛЬНИХ ВІКОН ---
+    window.closeAllModals = function() {
+        document.querySelectorAll('.modal-overlay').forEach(m => {
+            m.classList.remove('active');
+            m.style.display = 'none'; 
+        });
+    };
+
+    window.openTypeMenu = function() {
         closeAllModals();
-        document.getElementById('modalAlreadySent').style.display = 'flex';
-        return;
-    }
-    closeAllModals();
-    document.getElementById('modalTypeSelection').style.display = 'flex';
-};
+        if(localStorage.getItem('sent')) {
+            document.getElementById('modalAlreadySent').classList.add('active');
+            document.getElementById('modalAlreadySent').style.display = 'flex';
+            return;
+        }
+        const modal = document.getElementById('modalTypeSelection');
+        modal.classList.add('active');
+        modal.style.display = 'flex';
+    };
 
-// Прив'язка кнопок після завантаження сторінки
-document.addEventListener('DOMContentLoaded', function() {
-    const btn1 = document.getElementById('btnJoinRecruitment');
-    const btn2 = document.getElementById('btnJoinFooter');
-    if(btn1) btn1.onclick = () => openTypeMenu();
-    if(btn2) btn2.onclick = (e) => { e.preventDefault(); openTypeMenu(); };
-});
+    window.openSkills = function(type) {
+        currentFormType = type;
+        closeAllModals();
+        const modal = document.getElementById('modalSkillsSelection');
+        modal.classList.add('active');
+        modal.style.display = 'flex';
+    };
 
-window.openSkills = function(type) {
-    currentFormType = type;
-    closeAllModals();
-    document.getElementById('modalSkillsSelection').style.display = 'flex';
-};
+    window.openFinalForm = function() {
+        closeAllModals();
+        const finalModal = document.getElementById('modalFinalForm');
+        finalModal.classList.add('active');
+        finalModal.style.display = 'flex';
+        document.getElementById('finalTitle').innerText = currentFormType;
+    };
 
-window.toggleSkill = function(btn) {
-    btn.classList.toggle('selected');
-    const skill = btn.innerText;
-    if(btn.classList.contains('selected')) {
-        selectedSkills.push(skill);
-    } else {
-        selectedSkills = selectedSkills.filter(s => s !== skill);
-    }
-};
+    window.toggleSkill = function(btn) {
+        btn.classList.toggle('selected');
+        const skill = btn.innerText;
+        if(btn.classList.contains('selected')) {
+            selectedSkills.push(skill);
+        } else {
+            selectedSkills = selectedSkills.filter(s => s !== skill);
+        }
+    };
 
-window.openFinalForm = function() {
-    closeAllModals();
-    document.getElementById('modalFinalForm').style.display = 'flex';
-    document.getElementById('finalTitle').innerText = currentFormType;
-    setContact('tg');
-};
+    // --- ВІДПРАВКА В TELEGRAM ---
+    document.addEventListener('submit', async function(e) {
+        if(e.target && e.target.id === 'tgForm') {
+            e.preventDefault();
+            const nick = document.getElementById('nickInput').value;
+            const contact = document.getElementById('contactInput').value;
 
-window.closeAllModals = function() {
-    document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
-};
+            if(!/^[A-Z][a-z]+_[A-Z][a-z]+$/.test(nick)) return alert("Формат ніка: Nick_Name");
 
-window.setContact = function(mode) {
-    contactMode = mode;
-    document.getElementById('swTg').classList.toggle('active', mode === 'tg');
-    document.getElementById('swDs').classList.toggle('active', mode === 'ds');
-    document.getElementById('contactInput').value = mode === 'tg' ? "@" : "#";
-};
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.innerText = "НАДСИЛАННЯ...";
+            submitBtn.disabled = true;
 
-// Відправка форми
-document.addEventListener('submit', async function(e) {
-    if(e.target && e.target.id === 'tgForm') {
-        e.preventDefault();
-        const nick = document.getElementById('nickInput').value;
-        const contact = document.getElementById('contactInput').value;
+            let skillsText = selectedSkills.length > 0 ? `\n🛠 Навички: ${selectedSkills.join(', ')}` : "\n🛠 Навички: не вказано";
+            const message = `🔥 НОВА ЗАЯВКА\n\n📋 Тип: ${currentFormType}\n👤 Нік: ${nick}\n📞 Зв'язок: ${contact}${skillsText}`;
 
-        if(!/^[A-Z][a-z]+_[A-Z][a-z]+$/.test(nick)) return alert("Формат ніка: Nick_Name");
+            try {
+                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({chat_id: CHAT_ID, text: message})
+                });
 
-        const submitBtn = e.target.querySelector('button[type="submit"]');
-        submitBtn.innerText = "НАДСИЛАННЯ...";
-        submitBtn.disabled = true;
-
-        let skillsText = selectedSkills.length > 0 ? `\n🛠 Навички: ${selectedSkills.join(', ')}` : "\n🛠 Навички: не вказано";
-        const message = `🔥 НОВА ЗАЯВКА\n\n📋 Тип: ${currentFormType}\n👤 Нік: ${nick}\n📞 Зв'язок: ${contact}${skillsText}`;
-
-        try {
-            const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({chat_id: CHAT_ID, text: message})
-            });
-
-            if (res.ok) {
-                localStorage.setItem('sent', 'true');
-                closeAllModals(); // Спочатку закриваємо всі вікна
-                
-                // Відкриваємо наше нове гарне вікно успіху
-                document.getElementById('modalSuccess').style.display = 'flex';
-                
-                // Додаємо святковий ефект конфетті
-                if (typeof confetti === 'function') {
-                    confetti({
-                        particleCount: 150,
-                        spread: 70,
-                        origin: { y: 0.6 },
-                        colors: ['#0047FF', '#00ff88', '#ffffff']
-                    });
+                if (res.ok) {
+                    localStorage.setItem('sent', 'true');
+                    closeAllModals();
+                    document.getElementById('modalSuccess').style.display = 'flex';
+                    
+                    if (typeof confetti === 'function') {
+                        confetti({
+                            particleCount: 150,
+                            spread: 70,
+                            origin: { y: 0.6 },
+                            colors: ['#0047FF', '#00ff88', '#ffffff']
+                        });
+                    }
+                } else {
+                    alert("❌ Помилка відправки.");
                 }
-            } else {
-                alert("❌ Помилка відправки. Спробуйте ще раз.");
-            }
-        } catch (err) {
-            alert("🌐 Помилка мережі. Перевірте з'єднання.");
-        } finally {
-            submitBtn.innerText = "ВІДПРАВИТИ";
-            submitBtn.disabled = false;
-        }
-    }
-});
-let isPlaying = false;
-const audio = document.getElementById('syndicateAudio');
-const radioBtn = document.getElementById('radioBtn');
-const radioIcon = document.getElementById('radioIcon');
-const radioPlayer = document.getElementById('radioPlayer');
-const liveStatus = document.getElementById('liveStatus');
-
-function toggleRadio() {
-    if (!isPlaying) {
-        audio.play().then(() => {
-            isPlaying = true;
-            radioIcon.classList.replace('fa-play', 'fa-pause');
-            radioPlayer.classList.add('playing');
-            liveStatus.innerText = 'ON AIR';
-            liveStatus.style.color = '#ff4444'; // Червоний, коли в ефірі
-        }).catch(err => console.log("Помилка відтворення:", err));
-    } else {
-        audio.pause();
-        isPlaying = false;
-        radioIcon.classList.replace('fa-pause', 'fa-play');
-        radioPlayer.classList.remove('playing');
-        liveStatus.innerText = 'OFFLINE';
-        liveStatus.style.color = 'var(--accent-blue)';
-    }
-}
-
-// Налаштування гучності (наприклад, 30%, щоб не лякати відвідувачів)
-audio.volume = 0.3;
-const terminalLogs = [
-    { text: "> Ініціалізація протоколу зв'язку...", type: "process", delay: 800 },
-    { text: "> Підключення до проксі-вузла CORONA-NET...", type: "process", delay: 1200 },
-    { text: "> [OK] Канал зашифровано 256-bit AES", type: "success", delay: 600 },
-    { text: "> Авторизація лідера: GIANNI_VERSACE...", type: "process", delay: 1000 },
-    { text: "> Перевірка статусу мережі: ONLINE", type: "success", delay: 700 },
-    { text: "> ВСТАНОВЛЕННЯ ПРЯМОГО З'ЄДНАННЯ...", type: "process", delay: 1500 },
-    { text: "> КОНТАКТ ВСТАНОВЛЕНО. ЧЕКАЄМО НА ВАС.", type: "success", delay: 500 }
-];
-
-async function runTerminal() {
-    const screen = document.getElementById('terminalScreen');
-    const startBtn = document.getElementById('startTerminalBtn');
-    const tgBtn = document.getElementById('tgLinkBtn');
-    
-    // Очищуємо екран та ховаємо кнопку
-    screen.innerHTML = '';
-    startBtn.style.display = 'none';
-
-    for (const log of terminalLogs) {
-        const div = document.createElement('div');
-        div.className = `log-entry ${log.type}`;
-        screen.appendChild(div);
-        
-        // Ефект друку тексту
-        await typeWriter(log.text, div);
-        
-        // Прокрутка вниз
-        screen.scrollTop = screen.scrollHeight;
-        
-        // Пауза між повідомленнями
-        await new Promise(resolve => setTimeout(resolve, log.delay));
-    }
-
-    // Показуємо фінальну кнопку
-    tgBtn.style.display = 'block';
-}
-
-function typeWriter(text, element) {
-    return new Promise(resolve => {
-        let i = 0;
-        function type() {
-            if (i < text.length) {
-                element.innerHTML += text.charAt(i);
-                i++;
-                setTimeout(type, 30);
-            } else {
-                resolve();
+            } catch (err) {
+                alert("🌐 Помилка мережі.");
+            } finally {
+                submitBtn.innerText = "ВІДПРАВИТИ";
+                submitBtn.disabled = false;
             }
         }
-        type();
     });
-}
-    </script>
+
+    // --- РАДІО ПЛЕЄР ---
+    let isPlaying = false;
+    const audio = document.getElementById('syndicateAudio');
+    audio.volume = 0.3;
+
+    window.toggleRadio = function() {
+        const radioIcon = document.getElementById('radioIcon');
+        const radioPlayer = document.getElementById('radioPlayer');
+        const liveStatus = document.getElementById('liveStatus');
+
+        if (!isPlaying) {
+            audio.play().then(() => {
+                isPlaying = true;
+                radioIcon.classList.replace('fa-play', 'fa-pause');
+                radioPlayer.classList.add('playing');
+                liveStatus.innerText = 'ON AIR';
+                liveStatus.style.color = '#ff4444';
+            }).catch(err => console.log("Помилка:", err));
+        } else {
+            audio.pause();
+            isPlaying = false;
+            radioIcon.classList.replace('fa-pause', 'fa-play');
+            radioPlayer.classList.remove('playing');
+            liveStatus.innerText = 'OFFLINE';
+            liveStatus.style.color = '#0047FF';
+        }
+    }
+
+    // --- ТЕРМІНАЛ ---
+    const terminalLogs = [
+        { text: "> Ініціалізація протоколу зв'язку...", type: "process", delay: 800 },
+        { text: "> Підключення до проксі-вузла CORONA-NET...", type: "process", delay: 1200 },
+        { text: "> [OK] Канал зашифровано 256-bit AES", type: "success", delay: 600 },
+        { text: "> Перевірка статусу мережі: ONLINE", type: "success", delay: 700 },
+        { text: "> КОНТАКТ ВСТАНОВЛЕНО. ЧЕКАЄМО НА ВАС.", type: "success", delay: 500 }
+    ];
+
+    window.runTerminal = async function() {
+        const screen = document.getElementById('terminalScreen');
+        const startBtn = document.getElementById('startTerminalBtn');
+        const tgBtn = document.getElementById('tgLinkBtn');
+        
+        screen.innerHTML = '';
+        startBtn.style.display = 'none';
+
+        for (const log of terminalLogs) {
+            const div = document.createElement('div');
+            div.className = `log-entry ${log.type}`;
+            screen.appendChild(div);
+            
+            await typeWriter(log.text, div);
+            screen.scrollTop = screen.scrollHeight;
+            await new Promise(resolve => setTimeout(resolve, log.delay));
+        }
+        tgBtn.style.display = 'block';
+    }
+
+    function typeWriter(text, element) {
+        return new Promise(resolve => {
+            let i = 0;
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, 30);
+                } else {
+                    resolve();
+                }
+            }
+            type();
+        });
+    }
+
+    // --- ПРИВ'ЯЗКА ПОДІЙ ---
+    document.addEventListener('DOMContentLoaded', function() {
+        const btn1 = document.getElementById('btnJoinRecruitment');
+        const btn2 = document.getElementById('btnJoinFooter');
+        if(btn1) btn1.onclick = () => openTypeMenu();
+        if(btn2) btn2.onclick = (e) => { e.preventDefault(); openTypeMenu(); };
+    });
+</script>
     
     <div id="modalTypeSelection" class="modal-overlay">
     <div class="modal-content glass-panel">
@@ -1590,6 +1606,143 @@ function typeWriter(text, element) {
             Ви вже подали заявку раніше. <br> Будь ласка, очікуйте на відповідь лідера!
         </p>
         <button class="btn-apply" onclick="closeAllModals()" style="width: 100%; background: #ffcc00; color: #000; border: none;">ЗРОЗУМІЛО</button>
+    </div>
+</div>
+<section id="admin-panel" style="display: none; padding: 40px 20px; background: rgba(0,0,0,0.8);">
+    <div class="container">
+        <div class="glass-panel" style="border-color: #ff4444; padding: 30px;">
+            <h2 style="font-family: 'Unbounded'; color: #ff4444; margin-bottom: 20px; text-align: center;">
+                <i class="fa-solid fa-shield-halved"></i> ПАНЕЛЬ КЕРУВАННЯ
+            </h2>
+            
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; color: white;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid #333;">
+                            <th style="padding: 10px; text-align: left;">Нікнейм</th>
+                            <th style="padding: 10px; text-align: left;">Ранг</th>
+                            <th style="padding: 10px; text-align: right;">Дії</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-users-list">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="authModal" class="modal-overlay">
+    <div class="modal-content glass-panel" style="max-width: 400px;">
+        <div style="display: flex; justify-content: space-around; margin-bottom: 20px;">
+            <button onclick="switchAuthMode('login')" id="loginTab" style="background: none; border: none; color: #00ff88; font-family: 'Unbounded'; cursor: pointer;">ВХІД</button>
+            <button onclick="switchAuthMode('signup')" id="signupTab" style="background: none; border: none; color: #ccc; font-family: 'Unbounded'; cursor: pointer;">РЕЄСТРАЦІЯ</button>
+        </div>
+
+        <form id="authForm" onsubmit="handleAuth(event)">
+            <input type="email" id="authEmail" placeholder="pavlokreminskij@gmail.com" required class="glass-panel" style="width: 100%; padding: 12px; margin-bottom: 10px; background: rgba(255,255,255,0.05); color: white; border: 1px solid #333;">
+            
+            <input type="password" id="authPassword" placeholder="YbGXjQnKGDik" required class="glass-panel" style="width: 100%; padding: 12px; margin-bottom: 10px; background: rgba(255,255,255,0.05); color: white; border: 1px solid #333;">
+            
+            <input type="text" id="authUsername" placeholder="Gianni_Versace" class="glass-panel" style="display: none; width: 100%; padding: 12px; margin-bottom: 15px; background: rgba(255,255,255,0.05); color: white; border: 1px solid #333;">
+            
+            <button type="submit" id="authSubmitBtn" class="btn-apply" style="width: 100%; background: #00ff88; color: black; font-weight: bold;">УВІЙТИ</button>
+        </form>
+        <button onclick="closeAuthModal()" style="background: none; border: none; color: #555; margin-top: 15px; cursor: pointer; font-size: 0.8rem;">СКАСУВАТИ</button>
+    </div>
+</div>
+</section>
+<div id="modalAuth" class="modal-overlay">
+    <div class="modal-content glass-panel" style="max-width: 400px;">
+        <button class="close-btn" onclick="closeAllModals()">&times;</button>
+        
+        <div id="loginForm">
+            <h2 class="unbounded" style="color: var(--accent-blue); margin-bottom: 5px;">ВХІД</h2>
+            <p style="font-size: 0.7rem; color: #666; margin-bottom: 25px; letter-spacing: 1px;">CORONA SYNDICATE ACCESS</p>
+            
+            <input type="email" id="loginEmail" class="form-input" placeholder="Електронна пошта">
+            <input type="password" id="loginPass" class="form-input" placeholder="Пароль">
+            
+            <button class="btn-apply" style="width: 100%; margin-top: 10px;" onclick="handleLogin(event)">УВІЙТИ</button>
+            
+            <p style="text-align: center; margin-top: 20px; font-size: 0.8rem; color: #888;">
+                Немає аккаунту? <a href="javascript:void(0)" onclick="toggleForms('reg')" style="color: var(--accent-blue); text-decoration: none; font-weight: bold;">РЕЄСТРАЦІЯ</a>
+            </p>
+        </div>
+
+        <div id="regForm" style="display: none;">
+            <h2 class="unbounded" style="color: var(--accent-blue); margin-bottom: 5px;">РЕЄСТРАЦІЯ</h2>
+            <p style="font-size: 0.7rem; color: #666; margin-bottom: 25px; letter-spacing: 1px;">BECOME A MEMBER</p>
+            
+            <input type="text" id="regNick" class="form-input" placeholder="Нікнейм (Name_Surname)">
+            <input type="email" id="regEmail" class="form-input" placeholder="Email">
+            <input type="password" id="regPass" class="form-input" placeholder="Придумайте пароль">
+            
+            <button class="btn-apply" style="width: 100%; margin-top: 10px;" onclick="handleSignUp(event)">СТВОРЮЄМО...</button>
+            
+            <p style="text-align: center; margin-top: 20px; font-size: 0.8rem; color: #888;">
+                Вже є профіль? <a href="javascript:void(0)" onclick="toggleForms('login')" style="color: var(--accent-blue); text-decoration: none; font-weight: bold;">УВІЙТИ</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<div id="modalProfile" class="modal-overlay">
+    <div class="modal-content glass-panel" style="max-width: 450px;">
+        <button class="close-btn" onclick="closeAllModals()">&times;</button>
+        <div id="adminSection" style="display: none; margin-top: 20px; border-top: 1px solid #333; padding-top: 20px;">
+    <p style="font-size: 0.6rem; color: #ff3c00; margin-bottom: 10px; letter-spacing: 2px; text-align: center;">ADMINISTRATOR ACCESS</p>
+    <button class="btn-apply" onclick="openAdminMenu()" style="width: 100%; background: #ff3c00; border: none; color: white;">
+        <i class="fa-solid fa-screwdriver-wrench"></i> КЕРУВАТИ ГРАВЦЯМИ
+    </button>
+</div>
+        
+        <div style="text-align: center;">
+            <div style="width: 80px; height: 80px; background: var(--accent-blue); border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 2rem; border: 4px solid #111;">
+                <i class="fa-solid fa-user-shield"></i>
+            </div>
+            <h2 id="profName" class="unbounded" style="margin-bottom: 5px; font-size: 1.2rem;">NAME_SURNAME</h2>
+            <div id="profBadge" style="display: inline-block; padding: 4px 12px; border-radius: 20px; background: #1a1a1a; font-size: 0.6rem; color: var(--accent-blue); font-weight: 900; letter-spacing: 2px;">MEMBER</div>
+        </div>
+
+        <div style="margin-top: 30px; border-top: 1px solid #222; padding-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 10px; border-left: 3px solid var(--accent-blue);">
+                <span style="font-size: 0.6rem; color: #555; display: block; margin-bottom: 5px;">РАНГ</span>
+                <span id="profRank" style="font-family: 'Unbounded'; font-size: 0.8rem;">10 LEVEL</span>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 10px; border-left: 3px solid #00ff88;">
+                <span style="font-size: 0.6rem; color: #555; display: block; margin-bottom: 5px;">БАЛАНС</span>
+                <span id="profBalance" style="font-family: 'Unbounded'; font-size: 0.8rem; color: #00ff88;">$0.00</span>
+            </div>
+        </div>
+
+        <div id="adminSection" style="display: none; margin-top: 20px;">
+            <button class="btn-apply" onclick="openAdminMenu()" style="width: 100%; background: #ff3c00; color: white;">
+                <i class="fa-solid fa-lock"></i> АДМІН ПАНЕЛЬ
+            </button>
+        </div>
+
+        <button class="btn-apply" onclick="handleLogout()" style="width: 100%; margin-top: 20px; background: transparent; border: 1px solid #333; font-size: 0.7rem;">ВИЙТИ З АККАУНТУ</button>
+    </div>
+</div>
+<div id="modalAdmin" class="modal-overlay">
+    <div class="modal-content glass-panel" style="max-width: 90%; width: 800px; height: 80vh; overflow-y: auto;">
+        <button class="close-btn" onclick="closeAllModals()">&times;</button>
+        
+        <h2 class="unbounded" style="color: #ff3c00; margin-bottom: 20px;">SYSTEM ADMINISTRATION</h2>
+        
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem; text-align: left;">
+                <thead>
+                    <tr style="border-bottom: 2px solid #333; color: #888;">
+                        <th style="padding: 10px;">ID / EMAIL</th>
+                        <th style="padding: 10px;">NICKNAME</th>
+                        <th style="padding: 10px;">RANK</th>
+                        <th style="padding: 10px;">ACTION</th>
+                    </tr>
+                </thead>
+                <tbody id="adminUserList">
+                    </tbody>
+            </table>
+        </div>
     </div>
 </div>
 </body>
