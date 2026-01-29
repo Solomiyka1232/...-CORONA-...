@@ -989,7 +989,7 @@ body {
     </button>
     <div class="radio-info">
         <span class="radio-status" id="liveStatus">OFFLINE</span>
-        <span class="radio-name">SYNDICATE FM</span>
+        <span class="radio-name">...:::CORONA:::... FM</span>
     </div>
     <div class="wave-container">
         <div class="wave-bar" style="animation-delay: 0.1s"></div>
@@ -997,7 +997,7 @@ body {
         <div class="wave-bar" style="animation-delay: 0.2s"></div>
     </div>
     
-    <audio id="syndicateAudio" src="https://online.radioroks.ua/RadioROKS_HardnHeavy"></audio>
+    <audio id="syndicateAudio" src="https://online.hitfm.ua/HitFM"></audio>
 </div>
 
     <header class="hero">
@@ -1349,193 +1349,325 @@ body {
     </footer>
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-<script>
-    // --- ІНІЦІАЛІЗАЦІЯ ---
-    AOS.init({ duration: 800, once: true });
+    <script>
+        AOS.init({ duration: 800, once: true });
 
-    const BOT_TOKEN = "8263268386:AAHZJAtEokFMKn-jAWhoBeA0q0kYLQ98Rbk";
-    const CHAT_ID = "6638384308";
+const BOT_TOKEN = "8263268386:AAHZJAtEokFMKn-jAWhoBeA0q0kYLQ98Rbk";
+const CHAT_ID = "6638384308";
 
-    let currentFormType = "";
-    let selectedSkills = [];
+let currentFormType = "";
+let contactMode = "tg";
+let selectedSkills = [];
 
-    // --- ФУНКЦІЇ МОДАЛЬНИХ ВІКОН ---
-    window.closeAllModals = function() {
-        document.querySelectorAll('.modal-overlay').forEach(m => {
-            m.classList.remove('active');
-            m.style.display = 'none'; 
-        });
-    };
-
-    window.openTypeMenu = function() {
-        closeAllModals();
-        if(localStorage.getItem('sent')) {
-            document.getElementById('modalAlreadySent').classList.add('active');
-            document.getElementById('modalAlreadySent').style.display = 'flex';
-            return;
-        }
-        const modal = document.getElementById('modalTypeSelection');
-        modal.classList.add('active');
-        modal.style.display = 'flex';
-    };
-
-    window.openSkills = function(type) {
-        currentFormType = type;
-        closeAllModals();
-        const modal = document.getElementById('modalSkillsSelection');
-        modal.classList.add('active');
-        modal.style.display = 'flex';
-    };
-
-    window.openFinalForm = function() {
-        closeAllModals();
-        const finalModal = document.getElementById('modalFinalForm');
-        finalModal.classList.add('active');
-        finalModal.style.display = 'flex';
-        document.getElementById('finalTitle').innerText = currentFormType;
-    };
-
-    window.toggleSkill = function(btn) {
-        btn.classList.toggle('selected');
-        const skill = btn.innerText;
-        if(btn.classList.contains('selected')) {
-            selectedSkills.push(skill);
-        } else {
-            selectedSkills = selectedSkills.filter(s => s !== skill);
-        }
-    };
-
-    // --- ВІДПРАВКА В TELEGRAM ---
-    document.addEventListener('submit', async function(e) {
-        if(e.target && e.target.id === 'tgForm') {
-            e.preventDefault();
-            const nick = document.getElementById('nickInput').value;
-            const contact = document.getElementById('contactInput').value;
-
-            if(!/^[A-Z][a-z]+_[A-Z][a-z]+$/.test(nick)) return alert("Формат ніка: Nick_Name");
-
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            submitBtn.innerText = "НАДСИЛАННЯ...";
-            submitBtn.disabled = true;
-
-            let skillsText = selectedSkills.length > 0 ? `\n🛠 Навички: ${selectedSkills.join(', ')}` : "\n🛠 Навички: не вказано";
-            const message = `🔥 НОВА ЗАЯВКА\n\n📋 Тип: ${currentFormType}\n👤 Нік: ${nick}\n📞 Зв'язок: ${contact}${skillsText}`;
-
-            try {
-                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({chat_id: CHAT_ID, text: message})
-                });
-
-                if (res.ok) {
-                    localStorage.setItem('sent', 'true');
-                    closeAllModals();
-                    document.getElementById('modalSuccess').style.display = 'flex';
-                    
-                    if (typeof confetti === 'function') {
-                        confetti({
-                            particleCount: 150,
-                            spread: 70,
-                            origin: { y: 0.6 },
-                            colors: ['#0047FF', '#00ff88', '#ffffff']
-                        });
-                    }
-                } else {
-                    alert("❌ Помилка відправки.");
-                }
-            } catch (err) {
-                alert("🌐 Помилка мережі.");
-            } finally {
-                submitBtn.innerText = "ВІДПРАВИТИ";
-                submitBtn.disabled = false;
+// Функція відкриття меню
+window.openTypeMenu = function() {
+            closeAllModals();
+            if(localStorage.getItem('sent')) {
+                document.getElementById('modalAlreadySent').classList.add('active');
+                return;
             }
-        }
-    });
+            document.getElementById('modalTypeSelection').classList.add('active');
+        };
 
-    // --- РАДІО ПЛЕЄР ---
-    let isPlaying = false;
-    const audio = document.getElementById('syndicateAudio');
-    audio.volume = 0.3;
+// Прив'язка кнопок після завантаження сторінки
+document.addEventListener('DOMContentLoaded', function() {
+    const btn1 = document.getElementById('btnJoinRecruitment');
+    const btn2 = document.getElementById('btnJoinFooter');
+    if(btn1) btn1.onclick = () => openTypeMenu();
+    if(btn2) btn2.onclick = (e) => { e.preventDefault(); openTypeMenu(); };
+});
 
-    window.toggleRadio = function() {
-        const radioIcon = document.getElementById('radioIcon');
-        const radioPlayer = document.getElementById('radioPlayer');
-        const liveStatus = document.getElementById('liveStatus');
+window.openSkills = function(type) {
+            currentFormType = type;
+            closeAllModals();
+            document.getElementById('modalSkillsSelection').classList.add('active');
+        };
 
-        if (!isPlaying) {
-            audio.play().then(() => {
-                isPlaying = true;
-                radioIcon.classList.replace('fa-play', 'fa-pause');
-                radioPlayer.classList.add('playing');
-                liveStatus.innerText = 'ON AIR';
-                liveStatus.style.color = '#ff4444';
-            }).catch(err => console.log("Помилка:", err));
-        } else {
-            audio.pause();
-            isPlaying = false;
-            radioIcon.classList.replace('fa-pause', 'fa-play');
-            radioPlayer.classList.remove('playing');
-            liveStatus.innerText = 'OFFLINE';
-            liveStatus.style.color = '#0047FF';
+        window.openFinalForm = function() {
+            closeAllModals();
+            const finalModal = document.getElementById('modalFinalForm');
+            finalModal.classList.add('active');
+            document.getElementById('finalTitle').innerText = currentFormType;
+            setContact('tg');
+        };
+
+window.toggleSkill = function(btn) {
+    btn.classList.toggle('selected');
+    const skill = btn.innerText;
+    if(btn.classList.contains('selected')) {
+        selectedSkills.push(skill);
+    } else {
+        selectedSkills = selectedSkills.filter(s => s !== skill);
+    }
+};
+
+
+window.closeAllModals = function() {
+            document.querySelectorAll('.modal-overlay').forEach(m => {
+                m.classList.remove('active');
+                m.style.display = 'none'; 
+            });
+        };
+
+window.setContact = function(mode) {
+    contactMode = mode;
+    document.getElementById('swTg').classList.toggle('active', mode === 'tg');
+    document.getElementById('swDs').classList.toggle('active', mode === 'ds');
+    document.getElementById('contactInput').value = mode === 'tg' ? "@" : "#";
+};
+
+// Відправка форми
+document.addEventListener('submit', async function(e) {
+    if(e.target && e.target.id === 'tgForm') {
+        e.preventDefault();
+        const nick = document.getElementById('nickInput').value;
+        const contact = document.getElementById('contactInput').value;
+
+        if(!/^[A-Z][a-z]+_[A-Z][a-z]+$/.test(nick)) return alert("Формат ніка: Nick_Name");
+
+        const submitBtn = e.target.querySelector('button[type="submit"]');
+        submitBtn.innerText = "НАДСИЛАННЯ...";
+        submitBtn.disabled = true;
+
+        let skillsText = selectedSkills.length > 0 ? `\n🛠 Навички: ${selectedSkills.join(', ')}` : "\n🛠 Навички: не вказано";
+        const message = `🔥 НОВА ЗАЯВКА\n\n📋 Тип: ${currentFormType}\n👤 Нік: ${nick}\n📞 Зв'язок: ${contact}${skillsText}`;
+
+        try {
+            const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({chat_id: CHAT_ID, text: message})
+            });
+
+            if (res.ok) {
+                localStorage.setItem('sent', 'true');
+                closeAllModals(); // Спочатку закриваємо всі вікна
+                
+                // Відкриваємо наше нове гарне вікно успіху
+                document.getElementById('modalSuccess').style.display = 'flex';
+                
+                // Додаємо святковий ефект конфетті
+                if (typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 150,
+                        spread: 70,
+                        origin: { y: 0.6 },
+                        colors: ['#0047FF', '#00ff88', '#ffffff']
+                    });
+                }
+            } else {
+                alert("❌ Помилка відправки. Спробуйте ще раз.");
+            }
+        } catch (err) {
+            alert("🌐 Помилка мережі. Перевірте з'єднання.");
+        } finally {
+            submitBtn.innerText = "ВІДПРАВИТИ";
+            submitBtn.disabled = false;
         }
     }
+});
+let isPlaying = false;
+const audio = document.getElementById('syndicateAudio');
+const radioBtn = document.getElementById('radioBtn');
+const radioIcon = document.getElementById('radioIcon');
+const radioPlayer = document.getElementById('radioPlayer');
+const liveStatus = document.getElementById('liveStatus');
 
-    // --- ТЕРМІНАЛ ---
-    const terminalLogs = [
-        { text: "> Ініціалізація протоколу зв'язку...", type: "process", delay: 800 },
-        { text: "> Підключення до проксі-вузла CORONA-NET...", type: "process", delay: 1200 },
-        { text: "> [OK] Канал зашифровано 256-bit AES", type: "success", delay: 600 },
-        { text: "> Перевірка статусу мережі: ONLINE", type: "success", delay: 700 },
-        { text: "> КОНТАКТ ВСТАНОВЛЕНО. ЧЕКАЄМО НА ВАС.", type: "success", delay: 500 }
-    ];
+function toggleRadio() {
+    if (!isPlaying) {
+        audio.play().then(() => {
+            isPlaying = true;
+            radioIcon.classList.replace('fa-play', 'fa-pause');
+            radioPlayer.classList.add('playing');
+            liveStatus.innerText = 'ONLINE';
+            liveStatus.style.color = '#059212'; // Зелений, коли в ефірі
+        }).catch(err => console.log("Помилка відтворення:", err));
+    } else {
+        audio.pause();
+        isPlaying = false;
+        radioIcon.classList.replace('fa-pause', 'fa-play');
+        radioPlayer.classList.remove('playing');
+        liveStatus.innerText = 'OFFLINE';
+        liveStatus.style.color = 'var(--accent-blue)';
+    }
+}
 
-    window.runTerminal = async function() {
-        const screen = document.getElementById('terminalScreen');
-        const startBtn = document.getElementById('startTerminalBtn');
-        const tgBtn = document.getElementById('tgLinkBtn');
+// Налаштування гучності (наприклад, 30%, щоб не лякати відвідувачів)
+audio.volume = 0.3;
+const terminalLogs = [
+    { text: "> Ініціалізація протоколу зв'язку...", type: "process", delay: 800 },
+    { text: "> Підключення до проксі-вузла CORONA-NET...", type: "process", delay: 1200 },
+    { text: "> [OK] Канал зашифровано 256-bit AES", type: "success", delay: 600 },
+    { text: "> Авторизація лідера: GIANNI_VERSACE...", type: "process", delay: 1000 },
+    { text: "> Перевірка статусу мережі: ONLINE", type: "success", delay: 700 },
+    { text: "> ВСТАНОВЛЕННЯ ПРЯМОГО З'ЄДНАННЯ...", type: "process", delay: 1500 },
+    { text: "> КОНТАКТ ВСТАНОВЛЕНО. ЧЕКАЄМО НА ВАС.", type: "success", delay: 500 }
+];
+
+async function runTerminal() {
+    const screen = document.getElementById('terminalScreen');
+    const startBtn = document.getElementById('startTerminalBtn');
+    const tgBtn = document.getElementById('tgLinkBtn');
+    
+    // Очищуємо екран та ховаємо кнопку
+    screen.innerHTML = '';
+    startBtn.style.display = 'none';
+
+    for (const log of terminalLogs) {
+        const div = document.createElement('div');
+        div.className = `log-entry ${log.type}`;
+        screen.appendChild(div);
         
-        screen.innerHTML = '';
-        startBtn.style.display = 'none';
-
-        for (const log of terminalLogs) {
-            const div = document.createElement('div');
-            div.className = `log-entry ${log.type}`;
-            screen.appendChild(div);
-            
-            await typeWriter(log.text, div);
-            screen.scrollTop = screen.scrollHeight;
-            await new Promise(resolve => setTimeout(resolve, log.delay));
-        }
-        tgBtn.style.display = 'block';
+        // Ефект друку тексту
+        await typeWriter(log.text, div);
+        
+        // Прокрутка вниз
+        screen.scrollTop = screen.scrollHeight;
+        
+        // Пауза між повідомленнями
+        await new Promise(resolve => setTimeout(resolve, log.delay));
     }
 
-    function typeWriter(text, element) {
-        return new Promise(resolve => {
-            let i = 0;
-            function type() {
-                if (i < text.length) {
-                    element.innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(type, 30);
-                } else {
-                    resolve();
-                }
+    // Показуємо фінальну кнопку
+    tgBtn.style.display = 'block';
+}
+
+function typeWriter(text, element) {
+    return new Promise(resolve => {
+        let i = 0;
+        function type() {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(type, 30);
+            } else {
+                resolve();
             }
-            type();
-        });
-    }
-
-    // --- ПРИВ'ЯЗКА ПОДІЙ ---
-    document.addEventListener('DOMContentLoaded', function() {
-        const btn1 = document.getElementById('btnJoinRecruitment');
-        const btn2 = document.getElementById('btnJoinFooter');
-        if(btn1) btn1.onclick = () => openTypeMenu();
-        if(btn2) btn2.onclick = (e) => { e.preventDefault(); openTypeMenu(); };
+        }
+        type();
     });
-</script>
+}
+// Функція для перевірки, чи є користувач адміном
+async function checkAdminStatus() {
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) return; // Якщо не залогінений, нічого не робимо
+
+    // Беремо дані з таблиці profiles, яку ми створили SQL-запитом
+    const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('is_admin')
+        .eq('id', user.id)
+        .single();
+
+    if (profile && profile.is_admin) {
+        // Якщо в базі стоїть true — показуємо панель
+        document.getElementById('admin-panel').style.display = 'block';
+        loadUsersList(); // Завантажуємо список людей
+    }
+}
+
+// Функція завантаження всіх користувачів
+async function loadUsersList() {
+    const { data: users, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .order('rank', { ascending: false });
+
+    const tableBody = document.getElementById('admin-users-list');
+    tableBody.innerHTML = '';
+
+    users.forEach(member => {
+        tableBody.innerHTML += `
+            <tr style="border-bottom: 1px solid #222;">
+                <td style="padding: 15px;">${member.username || 'Без імені'}</td>
+                <td style="padding: 15px;"><span class="rank-badge">${member.rank}</span></td>
+                <td style="padding: 15px; text-align: right;">
+                    <button onclick="updateRank('${member.id}', ${member.rank + 1})" style="background: #00ff88; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-right: 5px;">+</button>
+                    <button onclick="updateRank('${member.id}', ${member.rank - 1})" style="background: #ff4444; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">-</button>
+                </td>
+            </tr>
+        `;
+    });
+}
+
+// Функція зміни рангу
+async function updateRank(userId, newRank) {
+    if (newRank < 1) return;
+    
+    const { error } = await supabase
+        .from('profiles')
+        .update({ rank: newRank })
+        .eq('id', userId);
+
+    if (error) {
+        alert("Помилка: " + error.message);
+    } else {
+        loadUsersList(); // Оновлюємо список після зміни
+    }
+}
+
+// Викликаємо перевірку при завантаженні сторінки
+window.addEventListener('load', checkAdminStatus);
+let authMode = 'login';
+
+function switchAuthMode(mode) {
+    authMode = mode;
+    const usernameInput = document.getElementById('authUsername');
+    const submitBtn = document.getElementById('authSubmitBtn');
+    const loginTab = document.getElementById('loginTab');
+    const signupTab = document.getElementById('signupTab');
+
+    if (mode === 'signup') {
+        usernameInput.style.display = 'block';
+        submitBtn.innerText = 'СТВОРИТИ АККАУНТ';
+        signupTab.style.color = '#00ff88';
+        loginTab.style.color = '#ccc';
+    } else {
+        usernameInput.style.display = 'none';
+        submitBtn.innerText = 'УВІЙТИ';
+        signupTab.style.color = '#ccc';
+        loginTab.style.color = '#00ff88';
+    }
+}
+
+async function handleAuth(event) {
+    event.preventDefault();
+    const email = document.getElementById('authEmail').value;
+    const password = document.getElementById('authPassword').value;
+    const username = document.getElementById('authUsername').value;
+
+    if (authMode === 'signup') {
+        // РЕЄСТРАЦІЯ
+        const { data, error } = await supabase.auth.signUp({ email, password });
+        if (error) return alert(error.message);
+        
+        // Створюємо запис у таблиці profiles
+        if (data.user) {
+            const { error: pError } = await supabase.from('profiles').insert([
+                { id: data.user.id, username: username, rank: 1 }
+            ]);
+            if (pError) console.error(pError);
+            alert('Перевір пошту для підтвердження!');
+        }
+    } else {
+        // ВХІД
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) alert(error.message);
+        else location.reload(); // Перезавантажуємо, щоб оновити статус
+    }
+}
+
+function closeAuthModal() {
+    document.getElementById('authModal').style.display = 'none';
+}
+
+function openAuthModal() {
+    document.getElementById('authModal').style.display = 'flex';
+}
+    </script>
     
     <div id="modalTypeSelection" class="modal-overlay">
     <div class="modal-content glass-panel">
@@ -1638,11 +1770,11 @@ body {
         </div>
 
         <form id="authForm" onsubmit="handleAuth(event)">
-            <input type="email" id="authEmail" placeholder="pavlokreminskij@gmail.com" required class="glass-panel" style="width: 100%; padding: 12px; margin-bottom: 10px; background: rgba(255,255,255,0.05); color: white; border: 1px solid #333;">
+            <input type="email" id="authEmail" placeholder="Твій Email" required class="glass-panel" style="width: 100%; padding: 12px; margin-bottom: 10px; background: rgba(255,255,255,0.05); color: white; border: 1px solid #333;">
             
-            <input type="password" id="authPassword" placeholder="YbGXjQnKGDik" required class="glass-panel" style="width: 100%; padding: 12px; margin-bottom: 10px; background: rgba(255,255,255,0.05); color: white; border: 1px solid #333;">
+            <input type="password" id="authPassword" placeholder="Пароль" required class="glass-panel" style="width: 100%; padding: 12px; margin-bottom: 10px; background: rgba(255,255,255,0.05); color: white; border: 1px solid #333;">
             
-            <input type="text" id="authUsername" placeholder="Gianni_Versace" class="glass-panel" style="display: none; width: 100%; padding: 12px; margin-bottom: 15px; background: rgba(255,255,255,0.05); color: white; border: 1px solid #333;">
+            <input type="text" id="authUsername" placeholder="Нікнейм в грі" class="glass-panel" style="display: none; width: 100%; padding: 12px; margin-bottom: 15px; background: rgba(255,255,255,0.05); color: white; border: 1px solid #333;">
             
             <button type="submit" id="authSubmitBtn" class="btn-apply" style="width: 100%; background: #00ff88; color: black; font-weight: bold;">УВІЙТИ</button>
         </form>
@@ -1650,100 +1782,5 @@ body {
     </div>
 </div>
 </section>
-<div id="modalAuth" class="modal-overlay">
-    <div class="modal-content glass-panel" style="max-width: 400px;">
-        <button class="close-btn" onclick="closeAllModals()">&times;</button>
-        
-        <div id="loginForm">
-            <h2 class="unbounded" style="color: var(--accent-blue); margin-bottom: 5px;">ВХІД</h2>
-            <p style="font-size: 0.7rem; color: #666; margin-bottom: 25px; letter-spacing: 1px;">CORONA SYNDICATE ACCESS</p>
-            
-            <input type="email" id="loginEmail" class="form-input" placeholder="Електронна пошта">
-            <input type="password" id="loginPass" class="form-input" placeholder="Пароль">
-            
-            <button class="btn-apply" style="width: 100%; margin-top: 10px;" onclick="handleLogin(event)">УВІЙТИ</button>
-            
-            <p style="text-align: center; margin-top: 20px; font-size: 0.8rem; color: #888;">
-                Немає аккаунту? <a href="javascript:void(0)" onclick="toggleForms('reg')" style="color: var(--accent-blue); text-decoration: none; font-weight: bold;">РЕЄСТРАЦІЯ</a>
-            </p>
-        </div>
-
-        <div id="regForm" style="display: none;">
-            <h2 class="unbounded" style="color: var(--accent-blue); margin-bottom: 5px;">РЕЄСТРАЦІЯ</h2>
-            <p style="font-size: 0.7rem; color: #666; margin-bottom: 25px; letter-spacing: 1px;">BECOME A MEMBER</p>
-            
-            <input type="text" id="regNick" class="form-input" placeholder="Нікнейм (Name_Surname)">
-            <input type="email" id="regEmail" class="form-input" placeholder="Email">
-            <input type="password" id="regPass" class="form-input" placeholder="Придумайте пароль">
-            
-            <button class="btn-apply" style="width: 100%; margin-top: 10px;" onclick="handleSignUp(event)">СТВОРЮЄМО...</button>
-            
-            <p style="text-align: center; margin-top: 20px; font-size: 0.8rem; color: #888;">
-                Вже є профіль? <a href="javascript:void(0)" onclick="toggleForms('login')" style="color: var(--accent-blue); text-decoration: none; font-weight: bold;">УВІЙТИ</a>
-            </p>
-        </div>
-    </div>
-</div>
-
-<div id="modalProfile" class="modal-overlay">
-    <div class="modal-content glass-panel" style="max-width: 450px;">
-        <button class="close-btn" onclick="closeAllModals()">&times;</button>
-        <div id="adminSection" style="display: none; margin-top: 20px; border-top: 1px solid #333; padding-top: 20px;">
-    <p style="font-size: 0.6rem; color: #ff3c00; margin-bottom: 10px; letter-spacing: 2px; text-align: center;">ADMINISTRATOR ACCESS</p>
-    <button class="btn-apply" onclick="openAdminMenu()" style="width: 100%; background: #ff3c00; border: none; color: white;">
-        <i class="fa-solid fa-screwdriver-wrench"></i> КЕРУВАТИ ГРАВЦЯМИ
-    </button>
-</div>
-        
-        <div style="text-align: center;">
-            <div style="width: 80px; height: 80px; background: var(--accent-blue); border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 2rem; border: 4px solid #111;">
-                <i class="fa-solid fa-user-shield"></i>
-            </div>
-            <h2 id="profName" class="unbounded" style="margin-bottom: 5px; font-size: 1.2rem;">NAME_SURNAME</h2>
-            <div id="profBadge" style="display: inline-block; padding: 4px 12px; border-radius: 20px; background: #1a1a1a; font-size: 0.6rem; color: var(--accent-blue); font-weight: 900; letter-spacing: 2px;">MEMBER</div>
-        </div>
-
-        <div style="margin-top: 30px; border-top: 1px solid #222; padding-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-            <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 10px; border-left: 3px solid var(--accent-blue);">
-                <span style="font-size: 0.6rem; color: #555; display: block; margin-bottom: 5px;">РАНГ</span>
-                <span id="profRank" style="font-family: 'Unbounded'; font-size: 0.8rem;">10 LEVEL</span>
-            </div>
-            <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 10px; border-left: 3px solid #00ff88;">
-                <span style="font-size: 0.6rem; color: #555; display: block; margin-bottom: 5px;">БАЛАНС</span>
-                <span id="profBalance" style="font-family: 'Unbounded'; font-size: 0.8rem; color: #00ff88;">$0.00</span>
-            </div>
-        </div>
-
-        <div id="adminSection" style="display: none; margin-top: 20px;">
-            <button class="btn-apply" onclick="openAdminMenu()" style="width: 100%; background: #ff3c00; color: white;">
-                <i class="fa-solid fa-lock"></i> АДМІН ПАНЕЛЬ
-            </button>
-        </div>
-
-        <button class="btn-apply" onclick="handleLogout()" style="width: 100%; margin-top: 20px; background: transparent; border: 1px solid #333; font-size: 0.7rem;">ВИЙТИ З АККАУНТУ</button>
-    </div>
-</div>
-<div id="modalAdmin" class="modal-overlay">
-    <div class="modal-content glass-panel" style="max-width: 90%; width: 800px; height: 80vh; overflow-y: auto;">
-        <button class="close-btn" onclick="closeAllModals()">&times;</button>
-        
-        <h2 class="unbounded" style="color: #ff3c00; margin-bottom: 20px;">SYSTEM ADMINISTRATION</h2>
-        
-        <div style="overflow-x: auto;">
-            <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem; text-align: left;">
-                <thead>
-                    <tr style="border-bottom: 2px solid #333; color: #888;">
-                        <th style="padding: 10px;">ID / EMAIL</th>
-                        <th style="padding: 10px;">NICKNAME</th>
-                        <th style="padding: 10px;">RANK</th>
-                        <th style="padding: 10px;">ACTION</th>
-                    </tr>
-                </thead>
-                <tbody id="adminUserList">
-                    </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 </body>
 </html>
