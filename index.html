@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
+    <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#E1AD01">
+<link rel="apple-touch-icon" href="https://img.icons8.com/ios-filled/192/E1AD01/crown.png">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="icon" href="https://img.icons8.com/ios-filled/50/E1AD01/crown.png" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CORONA SYNDICATE | ОФІЦІЙНИЙ САЙТ</title>
@@ -11,13 +16,18 @@
     
     <style>
         :root {
-            --bg-dark: #000000;
-            --bg-light: #ffffff;
-            --accent-blue: #0047FF; /* Глибокий королівський синій */
-            --text-main: #ffffff;
-            --text-dark: #000000;
-            --gray-border: #1a1a1a;
-        }
+    --bg-dark: #000000;
+    --bg-light: #ffffff;
+    /* Більш збалансоване, контрастне золото */
+    --accent-blue: #E1AD01; 
+    --text-main: #ffffff;
+    --text-dark: #000000;
+    --gray-border: #222222;
+    /* Додаємо м'яке світіння для елементів */
+    --gold-glow: rgba(225, 173, 1, 0.3);
+    scrollbar-width: thin;
+    scrollbar-color: #E1AD01 #000;
+}
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
@@ -110,17 +120,15 @@ body {
 
         /* --- КЕРІВНИЦТВО --- */
         .section-leaders {
-            background: var(--accent-blue);
-            padding: 100px 0;
-        }
+    /* Використовуємо темний градієнт замість суцільного кольору */
+    background: linear-gradient(180deg, #E1AD01 0%, #B38B00 100%);
+    padding: 100px 0;
+    color: #000000; /* Чорний текст для максимального контрасту на золотому */
+}
 
-        .leader-box {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 35px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-        }
+.leader-box {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15); /* Темніші розділювачі */
+}
 
         .leader-box:last-child { border: none; }
 
@@ -183,11 +191,15 @@ body {
             margin: 0;
         }
 
-        /* --- АВТОПАРК --- */
-        .section-fleet {
-            background: #0a0a0a;
-            padding: 100px 0;
-        }
+        .car-card:hover {
+    border-color: var(--accent-blue);
+    box-shadow: 0 10px 30px var(--gold-glow);
+    transform: translateY(-5px);
+}
+
+.car-specs li span:last-child {
+    color: var(--accent-blue); /* Золоті цифри характеристик */
+}
 
         .glass-panel {
             background: rgba(255, 255, 255, 0.03);
@@ -241,11 +253,6 @@ body {
         }
 
         .car-specs li span:first-child { color: #666; text-transform: uppercase; }
-        .car-specs li span:last-child {
-            color: var(--accent-blue);
-            font-family: monospace;
-            font-weight: 700;
-        }
 
         footer {
             padding: 50px;
@@ -259,18 +266,15 @@ body {
             .code-item { grid-template-columns: 1fr; gap: 10px; }
             .section-title { font-size: 2.2rem; }
             .hero h1 { 
-    font-size: 14vw; 
-    background: linear-gradient(90deg, #fff, #0047FF, #fff);
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    /* Об'єднуємо анімації в один рядок */
-    animation: heroReveal 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards, shine 3s linear infinite;
-    /* Додаємо апаратне прискорення для Safari */
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-}
+        font-size: 14vw;
+        /* Золотий металевий градієнт */
+        background: linear-gradient(90deg, #fff, #E1AD01, #fff);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: heroReveal 1.5s ease forwards, shine 3s linear infinite;
+    }
             .glass-panel { padding: 25px 15px; width: 100%; }
             .leader-box { padding: 20px 0; }
         }
@@ -980,16 +984,146 @@ body {
 }
 
 @keyframes blink { 50% { opacity: 0; } }
+/* Налаштування всієї смуги прокрутки */
+::-webkit-scrollbar {
+    width: 8px; /* Робимо її тонкою та елегантною */
+    background-color: #000; /* Чорний фон, щоб зливався з сайтом */
+}
+
+/* Доріжка, по якій бігає повзунок */
+::-webkit-scrollbar-track {
+    background: #000;
+    border-left: 1px solid #1a1a1a; /* Ледь помітна лінія розділення */
+}
+/* Сам повзунок */
+::-webkit-scrollbar-thumb {
+    background: var(--accent-blue);
+    border-radius: 10px; /* Закруглені краї */
+    border: 2px solid #000; /* Відступ від країв, щоб він здавався "плаваючим" */
+}
+
+/* Ефект при наведенні курсору */
+::-webkit-scrollbar-thumb:hover {
+    background: #ffcc00; /* Стає яскравішим при наведенні */
+    box-shadow: 0 0 10px var(--accent-blue); /* Додаємо легке золоте сяйво */
+}
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #B38B00 0%, #E1AD01 50%, #B38B00 100%);
+    border-radius: 4px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+}
+/* Контейнер частинок — найнижчий шар */
+#particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0 !important; /* Найнижчий рівень */
+    pointer-events: none;
+    opacity: 0.4; /* Робимо їх менш помітними, щоб не відволікали */
+}
+
+/* Весь інший контент піднімаємо вище */
+header, section, footer, .hero-content, .container {
+    position: relative;
+    z-index: 2; /* Вище за частинки */
+}
+
+/* Додаємо тінь тексту, щоб він "відривався" від фону */
+p, h2, h3, li {
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.8);
+}
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000; /* Глибокий чорний фон */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    transition: opacity 0.8s ease, visibility 0.8s; /* Плавне зникнення */
+}
+
+.preloader-content {
+    text-align: center;
+}
+
+.gold-icon {
+    font-size: 100px; /* Дуже велика іконка */
+    color: var(--accent-blue);
+    filter: drop-shadow(0 0 20px rgba(225, 173, 1, 0.5));
+    animation: crownPulse 2s infinite ease-in-out;
+}
+
+.loader-line {
+    width: 150px;
+    height: 2px;
+    background: rgba(225, 173, 1, 0.1);
+    margin: 20px auto 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.loader-line::after {
+    content: '';
+    position: absolute;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--accent-blue);
+    animation: lineLoading 1.5s infinite;
+}
+
+/* Анімація пульсації корони */
+@keyframes crownPulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 40px rgba(225, 173, 1, 0.8)); }
+}
+
+/* Анімація лінії під іконкою */
+@keyframes lineLoading {
+    0% { left: -100%; }
+    50% { left: 0; }
+    100% { left: 100%; }
+}
+
+/* Клас для приховання */
+.preloader-hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+/* Приховуємо іконки в основному контенті сайту */
+section .fa-crown, 
+section .fa-gem {
+    display: none !important;
+}
+
+/* Приховуємо іконки в заголовках, якщо вони там є */
+h1 .fa-crown, h1 .fa-gem,
+h2 .fa-crown, h2 .fa-gem {
+    display: none !important;
+}
     </style>
 </head>
 <body>
+    <div id="preloader">
+    <div class="preloader-content">
+        <i class="fas fa-crown gold-icon"></i>
+        <div class="loader-line"></div>
+    </div>
+</div>
+    <div id="particles-js" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;"></div>
     <div class="radio-player" id="radioPlayer">
     <button class="radio-btn" id="radioBtn" onclick="toggleRadio()">
         <i class="fa-solid fa-play" id="radioIcon"></i>
     </button>
     <div class="radio-info">
         <span class="radio-status" id="liveStatus">OFFLINE</span>
-        <span class="radio-name">...:::CORONA:::... FM</span>
+        <span class="radio-name">SYNDICATE FM</span>
     </div>
     <div class="wave-container">
         <div class="wave-bar" style="animation-delay: 0.1s"></div>
@@ -997,7 +1131,7 @@ body {
         <div class="wave-bar" style="animation-delay: 0.2s"></div>
     </div>
     
-    <audio id="syndicateAudio" src="https://online.hitfm.ua/HitFM"></audio>
+    <audio id="syndicateAudio" src="https://online.radioroks.ua/RadioROKS_HardnHeavy"></audio>
 </div>
 
     <header class="hero">
@@ -1317,32 +1451,7 @@ body {
         </div>
     </div>
     </section>
-    <section class="section-terminal">
-    <div class="container">
-        <div class="terminal-container" data-aos="zoom-in">
-            <div class="terminal-header">
-                <div class="terminal-dots">
-                    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-                </div>
-                <div class="terminal-title">З'єднання з Лідером</div>
-            </div>
-            
-            <div class="terminal-screen" id="terminalScreen">
-                <div class="terminal-placeholder">
-                    <i class="fa-solid fa-shuttle-space"></i>
-                    <p>ГОТОВИЙ ДО ВСТАНОВЛЕННЯ ЗВ'ЯЗКУ</p>
-                </div>
-            </div>
-
-            <div class="terminal-controls">
-                <button id="startTerminalBtn" class="btn-terminal" onclick="runTerminal()">ПОЧАТИ З'ЄДНАННЯ</button>
-                <a href="https://t.me/Sypherelle" id="tgLinkBtn" class="btn-tg-hidden" target="_blank">
-                    <i class="fa-brands fa-telegram"></i> ПЕРЕЙТИ ДО TELEGRAM
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
+    
 
     <footer>
         CORONA SYNDICATE • 2026 • УСІ ПРАВА ЗАХИЩЕНІ
@@ -1481,8 +1590,8 @@ function toggleRadio() {
             isPlaying = true;
             radioIcon.classList.replace('fa-play', 'fa-pause');
             radioPlayer.classList.add('playing');
-            liveStatus.innerText = 'ONLINE';
-            liveStatus.style.color = '#059212'; // Зелений, коли в ефірі
+            liveStatus.innerText = 'ON AIR';
+            liveStatus.style.color = '#ff4444'; // Червоний, коли в ефірі
         }).catch(err => console.log("Помилка відтворення:", err));
     } else {
         audio.pause();
@@ -1492,180 +1601,6 @@ function toggleRadio() {
         liveStatus.innerText = 'OFFLINE';
         liveStatus.style.color = 'var(--accent-blue)';
     }
-}
-
-// Налаштування гучності (наприклад, 30%, щоб не лякати відвідувачів)
-audio.volume = 0.3;
-const terminalLogs = [
-    { text: "> Ініціалізація протоколу зв'язку...", type: "process", delay: 800 },
-    { text: "> Підключення до проксі-вузла CORONA-NET...", type: "process", delay: 1200 },
-    { text: "> [OK] Канал зашифровано 256-bit AES", type: "success", delay: 600 },
-    { text: "> Авторизація лідера: GIANNI_VERSACE...", type: "process", delay: 1000 },
-    { text: "> Перевірка статусу мережі: ONLINE", type: "success", delay: 700 },
-    { text: "> ВСТАНОВЛЕННЯ ПРЯМОГО З'ЄДНАННЯ...", type: "process", delay: 1500 },
-    { text: "> КОНТАКТ ВСТАНОВЛЕНО. ЧЕКАЄМО НА ВАС.", type: "success", delay: 500 }
-];
-
-async function runTerminal() {
-    const screen = document.getElementById('terminalScreen');
-    const startBtn = document.getElementById('startTerminalBtn');
-    const tgBtn = document.getElementById('tgLinkBtn');
-    
-    // Очищуємо екран та ховаємо кнопку
-    screen.innerHTML = '';
-    startBtn.style.display = 'none';
-
-    for (const log of terminalLogs) {
-        const div = document.createElement('div');
-        div.className = `log-entry ${log.type}`;
-        screen.appendChild(div);
-        
-        // Ефект друку тексту
-        await typeWriter(log.text, div);
-        
-        // Прокрутка вниз
-        screen.scrollTop = screen.scrollHeight;
-        
-        // Пауза між повідомленнями
-        await new Promise(resolve => setTimeout(resolve, log.delay));
-    }
-
-    // Показуємо фінальну кнопку
-    tgBtn.style.display = 'block';
-}
-
-function typeWriter(text, element) {
-    return new Promise(resolve => {
-        let i = 0;
-        function type() {
-            if (i < text.length) {
-                element.innerHTML += text.charAt(i);
-                i++;
-                setTimeout(type, 30);
-            } else {
-                resolve();
-            }
-        }
-        type();
-    });
-}
-// Функція для перевірки, чи є користувач адміном
-async function checkAdminStatus() {
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (!user) return; // Якщо не залогінений, нічого не робимо
-
-    // Беремо дані з таблиці profiles, яку ми створили SQL-запитом
-    const { data: profile, error } = await supabase
-        .from('profiles')
-        .select('is_admin')
-        .eq('id', user.id)
-        .single();
-
-    if (profile && profile.is_admin) {
-        // Якщо в базі стоїть true — показуємо панель
-        document.getElementById('admin-panel').style.display = 'block';
-        loadUsersList(); // Завантажуємо список людей
-    }
-}
-
-// Функція завантаження всіх користувачів
-async function loadUsersList() {
-    const { data: users, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .order('rank', { ascending: false });
-
-    const tableBody = document.getElementById('admin-users-list');
-    tableBody.innerHTML = '';
-
-    users.forEach(member => {
-        tableBody.innerHTML += `
-            <tr style="border-bottom: 1px solid #222;">
-                <td style="padding: 15px;">${member.username || 'Без імені'}</td>
-                <td style="padding: 15px;"><span class="rank-badge">${member.rank}</span></td>
-                <td style="padding: 15px; text-align: right;">
-                    <button onclick="updateRank('${member.id}', ${member.rank + 1})" style="background: #00ff88; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-right: 5px;">+</button>
-                    <button onclick="updateRank('${member.id}', ${member.rank - 1})" style="background: #ff4444; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">-</button>
-                </td>
-            </tr>
-        `;
-    });
-}
-
-// Функція зміни рангу
-async function updateRank(userId, newRank) {
-    if (newRank < 1) return;
-    
-    const { error } = await supabase
-        .from('profiles')
-        .update({ rank: newRank })
-        .eq('id', userId);
-
-    if (error) {
-        alert("Помилка: " + error.message);
-    } else {
-        loadUsersList(); // Оновлюємо список після зміни
-    }
-}
-
-// Викликаємо перевірку при завантаженні сторінки
-window.addEventListener('load', checkAdminStatus);
-let authMode = 'login';
-
-function switchAuthMode(mode) {
-    authMode = mode;
-    const usernameInput = document.getElementById('authUsername');
-    const submitBtn = document.getElementById('authSubmitBtn');
-    const loginTab = document.getElementById('loginTab');
-    const signupTab = document.getElementById('signupTab');
-
-    if (mode === 'signup') {
-        usernameInput.style.display = 'block';
-        submitBtn.innerText = 'СТВОРИТИ АККАУНТ';
-        signupTab.style.color = '#00ff88';
-        loginTab.style.color = '#ccc';
-    } else {
-        usernameInput.style.display = 'none';
-        submitBtn.innerText = 'УВІЙТИ';
-        signupTab.style.color = '#ccc';
-        loginTab.style.color = '#00ff88';
-    }
-}
-
-async function handleAuth(event) {
-    event.preventDefault();
-    const email = document.getElementById('authEmail').value;
-    const password = document.getElementById('authPassword').value;
-    const username = document.getElementById('authUsername').value;
-
-    if (authMode === 'signup') {
-        // РЕЄСТРАЦІЯ
-        const { data, error } = await supabase.auth.signUp({ email, password });
-        if (error) return alert(error.message);
-        
-        // Створюємо запис у таблиці profiles
-        if (data.user) {
-            const { error: pError } = await supabase.from('profiles').insert([
-                { id: data.user.id, username: username, rank: 1 }
-            ]);
-            if (pError) console.error(pError);
-            alert('Перевір пошту для підтвердження!');
-        }
-    } else {
-        // ВХІД
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) alert(error.message);
-        else location.reload(); // Перезавантажуємо, щоб оновити статус
-    }
-}
-
-function closeAuthModal() {
-    document.getElementById('authModal').style.display = 'none';
-}
-
-function openAuthModal() {
-    document.getElementById('authModal').style.display = 'flex';
 }
     </script>
     
@@ -1782,5 +1717,44 @@ function openAuthModal() {
     </div>
 </div>
 </section>
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+  particlesJS('particles-js', {
+    "particles": {
+      "number": { "value": 100, "density": { "enable": true, "value_area": 800 } },
+      "color": { "value": "#E1AD01" }, /* Золотий колір пилу */
+      "shape": { "type": "circle" },
+      "opacity": { "value": 0.5, "random": true },
+      "size": { "value": 2, "random": true },
+      "move": { "enable": true, "speed": 1.5, "direction": "top", "random": true, "straight": false, "out_mode": "out" }
+    },
+    "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": false } } },
+    "retina_detect": true
+  });
+</script>
+<script>
+    window.addEventListener('load', function() {
+        const preloader = document.getElementById('preloader');
+        
+        // Невелика затримка, щоб користувач встиг насолодитися анімацією
+        setTimeout(() => {
+            preloader.classList.add('preloader-hidden');
+        }, 1500); 
+    });
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(err => console.log('SW error:', err));
+  });
+}
+
+// Функція для виклику вікна встановлення (якщо хочеш зробити кнопку)
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+});
+</script>
 </body>
 </html>
