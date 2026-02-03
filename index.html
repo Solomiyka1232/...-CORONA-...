@@ -1036,61 +1036,16 @@ p, h2, h3, li {
 }
 #preloader {
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: #000;
-    z-index: 10000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000; /* Глибокий чорний фон */
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: opacity 0.8s ease, visibility 0.8s;
-}
-
-.preloader-crown {
-    font-size: 4rem;
-    color: #E1AD01;
-    margin-bottom: 20px;
-    animation: crown-pulse 2s infinite ease-in-out;
-    filter: drop-shadow(0 0 15px rgba(225, 173, 1, 0.5));
-}
-
-.preloader-bar {
-    width: 200px; height: 2px;
-    background: rgba(255, 255, 255, 0.1);
-    margin: 0 auto;
-    position: relative;
-    overflow: hidden;
-}
-
-.preloader-progress {
-    position: absolute;
-    width: 0%; height: 100%;
-    background: #E1AD01;
-    box-shadow: 0 0 10px #E1AD01;
-    animation: progress-fill 2s forwards ease-in-out;
-}
-
-.preloader-text {
-    color: #E1AD01;
-    font-size: 10px;
-    letter-spacing: 3px;
-    margin-top: 15px;
-    font-family: 'Inter', sans-serif;
-}
-
-@keyframes crown-pulse {
-    0%, 100% { transform: scale(1); opacity: 0.8; }
-    50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 25px rgba(225, 173, 1, 0.8)); }
-}
-
-@keyframes progress-fill {
-    0% { width: 0%; }
-    100% { width: 100%; }
-}
-
-.preloader-hidden {
-    opacity: 0;
-    visibility: hidden;
+    z-index: 99999;
+    transition: opacity 0.8s ease, visibility 0.8s; /* Плавне зникнення */
 }
 
 .preloader-content {
@@ -1157,13 +1112,8 @@ h2 .fa-crown, h2 .fa-gem {
 <body>
     <div id="preloader">
     <div class="preloader-content">
-        <div class="preloader-crown">
-            <i class="fas fa-crown"></i>
-        </div>
-        <div class="preloader-bar">
-            <div class="preloader-progress"></div>
-        </div>
-        <p class="preloader-text">INITIALIZING SYNDICATE NETWORK...</p>
+        <i class="fas fa-crown gold-icon"></i>
+        <div class="loader-line"></div>
     </div>
 </div>
     <div id="particles-js" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;"></div>
@@ -1784,17 +1734,13 @@ function toggleRadio() {
 </script>
 <script>
     window.addEventListener('load', function() {
-    const preloader = document.getElementById('preloader');
-    
-    setTimeout(() => {
-        preloader.classList.add('preloader-hidden');
+        const preloader = document.getElementById('preloader');
         
-        // Тактильний відгук при успішному вході
-        if ("vibrate" in navigator) {
-            navigator.vibrate([30, 50, 30]); 
-        }
-    }, 3000); // 2 секунди, щоб гравець встиг побачити анімацію
-});
+        // Невелика затримка, щоб користувач встиг насолодитися анімацією
+        setTimeout(() => {
+            preloader.classList.add('preloader-hidden');
+        }, 1500); 
+    });
 </script>
 <script>
 if ('serviceWorker' in navigator) {
@@ -1808,99 +1754,6 @@ let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-});
-</script>
-<div id="oracle-wrapper" style="position: fixed; bottom: 30px; right: 30px; z-index: 9999; font-family: 'Inter', sans-serif;">
-    
-    <div id="oracle-window" style="display: none; width: 350px; height: 500px; background: rgba(10, 10, 10, 0.98); border: 1px solid #E1AD01; border-radius: 15px; flex-direction: column; overflow: hidden; box-shadow: 0 0 30px rgba(225, 173, 1, 0.4); backdrop-filter: blur(10px); margin-bottom: 20px;">
-        
-        <div style="background: #E1AD01; color: #000; padding: 15px; font-family: 'Unbounded'; font-weight: 900; font-size: 12px; display: flex; justify-content: space-between; align-items: center;">
-            <span>SYSTEM: THE ORACLE</span>
-            <i class="fas fa-times" onclick="toggleOracle()" style="cursor: pointer; font-size: 16px;"></i>
-        </div>
-        
-        <div id="oracle-messages" style="flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; color: #fff; font-size: 14px;">
-            <div style="background: rgba(225, 173, 1, 0.1); padding: 10px; border-radius: 10px; border-left: 3px solid #E1AD01;">
-                [SYSTEM]: Допуск дозволено. Очікую запит...
-            </div>
-        </div>
-
-        <div style="padding: 15px; background: rgba(255,255,255,0.05); display: flex; gap: 10px;">
-            <input type="text" id="oracleInput" placeholder="Запитай про статут..." style="flex: 1; background: transparent; border: 1px solid rgba(225,173,1,0.5); border-radius: 5px; padding: 10px; color: #fff; outline: none;">
-            <button onclick="sendToOracle()" style="background: #E1AD01; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; color: #000;">
-                <i class="fas fa-paper-plane"></i>
-            </button>
-        </div>
-    </div>
-
-    <button onclick="toggleOracle()" style="background: #E1AD01; border: none; width: 60px; height: 60px; border-radius: 50%; color: #000; font-size: 24px; cursor: pointer; box-shadow: 0 0 20px #E1AD01; transition: transform 0.3s ease;">
-        <i class="fas fa-robot"></i>
-    </button>
-</div>
-
-<script>
-// ВСТАВ СВІЙ КЛЮЧ ТУТ
-const API_KEY = "AIzaSyBlhYrjE2YWam31mln8dgQ5dFZPQglC2SU"; 
-
-const ORACLE_RULES = `Ти — The Oracle, ШІ сім'ї CORONA. Стиль: суворий, мафіозний. 
-Правила: 10-Лідер, 9-Зами, 8-Стрілок, 5-7 Свої, 1-4 Новачки. 
-Стріли: Deagle/M4. ТК або крадіжка = ЧС. Неактив 5 днів = кік.`;
-
-function toggleOracle() {
-    const win = document.getElementById('oracle-window');
-    win.style.display = win.style.display === 'none' ? 'flex' : 'none';
-}
-
-async function sendToOracle() {
-    const input = document.getElementById('oracleInput');
-    const container = document.getElementById('oracle-messages');
-    const text = input.value.trim();
-    if (!text) return;
-
-    // Відображення тексту користувача
-    container.innerHTML += `<div style="align-self: flex-end; background: #333; padding: 10px; border-radius: 10px; max-width: 80%; border: 1px solid rgba(255,255,255,0.1); font-size: 13px;">${text}</div>`;
-    input.value = '';
-    container.scrollTop = container.scrollHeight;
-
-    try {
-        // Використовуємо пряме посилання на модель v1
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                contents: [{
-                    parts: [{ text: ORACLE_RULES + "\n\nЗапит від гравця: " + text }]
-                }]
-            })
-        });
-
-        const data = await response.json();
-
-        // Якщо Google повернув помилку
-        if (!response.ok) {
-            console.error("Деталі помилки від Google:", data);
-            throw new Error(data.error?.message || "Невідома помилка API");
-        }
-
-        if (data.candidates && data.candidates[0].content) {
-            const aiText = data.candidates[0].content.parts[0].text;
-            container.innerHTML += `<div style="align-self: flex-start; color: #E1AD01; background: rgba(225,173,1,0.1); padding: 10px; border-radius: 10px; border-left: 3px solid #E1AD01; max-width: 80%; font-size: 13px; line-height: 1.4;"><b>ORACLE:</b> ${aiText}</div>`;
-        } else {
-            throw new Error("Пуста відповідь від системи");
-        }
-
-    } catch (e) {
-        console.error("Oracle Connection Error:", e);
-        container.innerHTML += `<div style="color: #ff4444; font-size: 11px; background: rgba(255,0,0,0.1); padding: 5px; border-radius: 5px;">[ERROR]: ${e.message}</div>`;
-    }
-    container.scrollTop = container.scrollHeight;
-}
-
-// Дозволяє відправляти повідомлення клавішею Enter
-document.getElementById('oracleInput').addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') sendToOracle();
 });
 </script>
 </body>
