@@ -128,37 +128,34 @@
             position: relative;
         }
 
-        /* // Chrome reflection effect // */
-        .hero-logo::after {
-            content: 'CORONA';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent 0%,
-                rgba(255, 255, 255, 0.4) 45%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0.4) 55%,
-                transparent 100%
-            );
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: chromeShine 6s ease-in-out infinite;
-        }
+        /* // Luxury breathing glow effect // */
+.hero-logo::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 120%;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(255, 255, 255, 0.06) 0%,
+        transparent 70%
+    );
+    animation: logoGlow 4s ease-in-out infinite;
+    pointer-events: none;
+}
 
-        @keyframes chromeShine {
-            0%, 100% {
-                opacity: 0;
-                transform: translateX(-100%);
-            }
-            50% {
-                opacity: 1;
-                transform: translateX(100%);
-            }
-        }
+@keyframes logoGlow {
+    0%, 100% {
+        opacity: 0.3;
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+}
 
         /* // SYNDICATE підзаголовок // */
         .hero-subtitle {
@@ -2304,14 +2301,13 @@
 .fleet {
     position: relative;
     width: 100%;
-    padding: 140px 5%;
+    padding: 120px 5%;
     background: linear-gradient(180deg, #080808 0%, #0c0c0c 100%);
 }
 
-/* // Section header // */
 .fleet-header {
     text-align: center;
-    margin-bottom: 100px;
+    margin-bottom: 60px;
 }
 
 .fleet-label {
@@ -2326,42 +2322,69 @@
 
 .fleet-title {
     font-family: 'Orbitron', sans-serif;
-    font-size: clamp(28px, 4vw, 42px);
+    font-size: 42px;
     font-weight: 700;
     letter-spacing: 15px;
     text-transform: uppercase;
     color: #ffffff;
-    margin-bottom: 15px;
 }
 
-.fleet-subtitle {
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    font-weight: 300;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: #444;
-}
-
-/* // Fleet Container // */
-.fleet-container {
-    max-width: 1100px;
+.fleet-counter {
+    max-width: 500px;
     margin: 0 auto;
-}
-
-/* // Category Block // */
-.fleet-category {
-    position: relative;
-    margin-bottom: 70px;
-    padding: 40px 50px;
-    background: linear-gradient(135deg, #0f0f0f 0%, #0a0a0a 100%);
+    text-align: center;
+    padding: 60px 50px;
+    background: linear-gradient(145deg, #0d0d0d 0%, #080808 100%);
     border: 1px solid #161616;
 }
 
-.fleet-category:last-child {
-    margin-bottom: 0;
+.counter-number {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 100px;
+    font-weight: 800;
+    letter-spacing: 5px;
+    background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #c0c0c0 30%,
+        #888888 60%,
+        #aaaaaa 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 15px;
 }
 
+.counter-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+.counter-line {
+    width: 40px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #333, transparent);
+    margin: 0 auto 25px;
+}
+
+.counter-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 1.5px;
+    line-height: 1.8;
+    color: #555;
+    max-width: 380px;
+    margin: 0 auto;
+}
+/* // FLEET SECTION СТИЛІ - КІНЕЦЬ // */
 /* // Large background index number // */
 .category-index {
     position: absolute;
@@ -2416,91 +2439,6 @@
     margin-left: auto;
 }
 
-/* // Vehicles grid // */
-.vehicles-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0;
-}
-
-/* // Single vehicle item // */
-.vehicle-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-    transition: background 0.2s ease;
-}
-
-.vehicle-item:hover {
-    background: rgba(255, 255, 255, 0.01);
-}
-
-/* // Odd items border right // */
-.vehicle-item:nth-child(odd) {
-    border-right: 1px solid rgba(255, 255, 255, 0.02);
-}
-
-/* // Vehicle info // */
-.vehicle-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-/* // Vehicle model name // */
-.vehicle-model {
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    font-weight: 400;
-    letter-spacing: 1px;
-    color: #888;
-}
-
-/* // Rank badge // */
-.vehicle-badge {
-    font-family: 'Inter', sans-serif;
-    font-size: 8px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding: 3px 8px;
-    background: rgba(212, 175, 55, 0.1);
-    border: 1px solid rgba(212, 175, 55, 0.25);
-    color: #c9a84c;
-}
-
-/* // Vehicle plate // */
-.vehicle-plate {
-    font-family: 'JetBrains Mono', 'Consolas', monospace;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 1.5px;
-    color: rgba(212, 175, 55, 0.45);
-}
-
-.vehicle-plate.special {
-    color: rgba(212, 175, 55, 0.7);
-}
-
-.vehicle-plate.no-plate {
-    color: #2a2a2a;
-    font-style: italic;
-}
-
-/* // Highlighted vehicle (McLaren) // */
-.vehicle-item.featured {
-    background: linear-gradient(90deg, rgba(212, 175, 55, 0.03) 0%, transparent 100%);
-    border-left: 2px solid rgba(212, 175, 55, 0.3);
-    padding-left: 18px;
-}
-
-.vehicle-item.featured .vehicle-model {
-    color: #bbb;
-    font-weight: 500;
-}
-
 /* // Fleet summary // */
 .fleet-summary {
     display: flex;
@@ -2531,66 +2469,6 @@
     letter-spacing: 4px;
     text-transform: uppercase;
     color: #2a2a2a;
-}
-
-/* // FLEET RESPONSIVE // */
-@media (max-width: 900px) {
-    .vehicles-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .vehicle-item:nth-child(odd) {
-        border-right: none;
-    }
-
-    .category-header {
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-
-    .category-subtitle {
-        margin-left: 0;
-        width: 100%;
-        margin-top: 5px;
-    }
-
-    .fleet-category {
-        padding: 30px 25px;
-    }
-
-    .category-index {
-        display: none;
-    }
-}
-
-@media (max-width: 600px) {
-    .fleet {
-        padding: 100px 4%;
-    }
-
-    .fleet-title {
-        letter-spacing: 8px;
-    }
-
-    .fleet-summary {
-        flex-direction: column;
-        gap: 30px;
-    }
-
-    .vehicle-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-        padding: 14px 15px;
-    }
-
-    .vehicle-plate {
-        align-self: flex-end;
-    }
-
-    .category-name {
-        letter-spacing: 4px;
-    }
 }
 
 
@@ -3128,32 +3006,32 @@
     position: relative;
 }
 
-/* // Shimmer effect // */
+/* // Subtle pulse glow effect // */
 .house-number::after {
-    content: '190';
+    content: '';
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.3) 50%,
-        transparent 100%
+    height: 100%;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(255, 255, 255, 0.05) 0%,
+        transparent 60%
     );
-    -webkit-background-clip: text;
-    background-clip: text;
-    animation: shimmer 4s ease-in-out infinite;
+    animation: numberPulse 3s ease-in-out infinite;
+    pointer-events: none;
 }
 
-@keyframes shimmer {
+@keyframes numberPulse {
     0%, 100% {
-        opacity: 0;
-        transform: translateX(-100%);
+        opacity: 0.2;
+        transform: translate(-50%, -50%) scale(0.9);
     }
     50% {
-        opacity: 1;
-        transform: translateX(100%);
+        opacity: 0.8;
+        transform: translate(-50%, -50%) scale(1.1);
     }
 }
 
@@ -3495,17 +3373,6 @@
 
     <!-- // Deputies Row - Titanium Plates // -->
     <div class="deputies-container">
-        <!-- // Deputy 1: V.Kobalt // -->
-        <div class="deputy-plate">
-            <div class="plate-sweep"></div>
-            <div class="deputy-content">
-                <p class="deputy-role">Executive Deputy</p>
-                <h3 class="deputy-name">V.Kobalt</h3>
-                <p class="deputy-specialty">Operations & Logistics</p>
-                <div class="deputy-divider"></div>
-                <p class="deputy-description">Контроль внутрішніх процесів та стабільності.</p>
-            </div>
-        </div>
 
         <!-- // Deputy 2: S.Tigr // -->
         <div class="deputy-plate">
@@ -3688,126 +3555,19 @@
 
 <!-- // FLEET SECTION HTML - ПОЧАТОК // -->
 <section class="fleet" id="fleet">
-    <!-- // Заголовок секції // -->
     <div class="fleet-header">
         <p class="fleet-label">Vehicle Registry</p>
         <h2 class="fleet-title">Автопарк</h2>
-        <p class="fleet-subtitle">Technical Specifications</p>
     </div>
 
-    <!-- // Fleet Container // -->
-    <div class="fleet-container">
-
-        <!-- // CATEGORY 01: PERFORMANCE // -->
-        <div class="fleet-category">
-            <div class="category-index">01</div>
-            <div class="category-header">
-                <h3 class="category-name">Performance</h3>
-                <span class="category-count">6 units</span>
-                <span class="category-subtitle">Швидкісний флот</span>
-            </div>
-            <div class="vehicles-grid">
-                <div class="vehicle-item featured">
-                    <div class="vehicle-info">
-                        <span class="vehicle-model">McLaren 570S</span>
-                        <span class="vehicle-badge">7+ Rank</span>
-                    </div>
-                    <span class="vehicle-plate">HX 1881 TX</span>
-                </div>
-                <div class="vehicle-item">
-                    <span class="vehicle-model">Dodge Challenger SRT</span>
-                    <span class="vehicle-plate">AM 6196 BP</span>
-                </div>
-                <div class="vehicle-item">
-                    <span class="vehicle-model">Dodge Challenger SRT</span>
-                    <span class="vehicle-plate">AP 7772 PM</span>
-                </div>
-                <div class="vehicle-item">
-                    <span class="vehicle-model">Chevrolet Camaro</span>
-                    <span class="vehicle-plate">OO 3565 OP</span>
-                </div>
-                <div class="vehicle-item">
-                    <span class="vehicle-model">Mercedes-Benz GT63 AMG</span>
-                    <span class="vehicle-plate">IE 1439 EC</span>
-                </div>
-                <div class="vehicle-item">
-                    <span class="vehicle-model">Mercedes-Benz SL63 AMG</span>
-                    <span class="vehicle-plate no-plate">NO PLATE</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- // CATEGORY 02: SUV DIVISION // -->
-        <div class="fleet-category">
-            <div class="category-index">02</div>
-            <div class="category-header">
-                <h3 class="category-name">SUV Division</h3>
-                <span class="category-count">5 units</span>
-                <span class="category-subtitle">Позашляховики</span>
-            </div>
-            <div class="vehicles-grid">
-                <div class="vehicle-item">
-                    <span class="vehicle-model">BMW X7</span>
-                    <span class="vehicle-plate">BM 2211 IX</span>
-                </div>
-                <div class="vehicle-item">
-                    <span class="vehicle-model">BMW X7</span>
-                    <span class="vehicle-plate">AE 4448 ME</span>
-                </div>
-                <div class="vehicle-item">
-                    <span class="vehicle-model">BMW X7</span>
-                    <span class="vehicle-plate">TA 4716 KE</span>
-                </div>
-                <div class="vehicle-item">
-                    <span class="vehicle-model">BMW X6M</span>
-                    <span class="vehicle-plate">PB 6655 HP</span>
-                </div>
-                <div class="vehicle-item">
-                    <span class="vehicle-model">Range Rover Sport</span>
-                    <span class="vehicle-plate">IA 8447 HM</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- // CATEGORY 03: OPERATIONS // -->
-        <div class="fleet-category">
-            <div class="category-index">03</div>
-            <div class="category-header">
-                <h3 class="category-name">Operations</h3>
-                <span class="category-count">6 units</span>
-                <span class="category-subtitle">Оперативний склад</span>
-            </div>
-            <div class="vehicles-grid">
-                <div class="vehicle-item">
-                    <span class="vehicle-model">Porsche Panamera</span>
-                    <span class="vehicle-plate">KT 2250 MO</span>
-                </div>
-                <div class="vehicle-item">
-                    <span class="vehicle-model">Mercedes-Benz V-Class</span>
-                    <span class="vehicle-plate">EM 6888 BP</span>
-                </div>
-                <div class="vehicle-item">
-                    <span class="vehicle-model">Mercedes-Benz V-Class</span>
-                    <span class="vehicle-plate">XE 5353 PO</span>
-                </div>
-                <div class="vehicle-item">
-                    <span class="vehicle-model">Audi A4 B8</span>
-                    <span class="vehicle-plate">EA 9992 TE</span>
-                </div>
-                <div class="vehicle-item">
-                    <span class="vehicle-model">BMW E39</span>
-                    <span class="vehicle-plate">AH 7241 AC</span>
-                </div>
-                <div class="vehicle-item">
-                    <span class="vehicle-model">Caterham Superlight</span>
-                    <span class="vehicle-plate special">SPECIAL</span>
-                </div>
-            </div>
-        </div>
-
+    <div class="fleet-counter">
+        <div class="counter-number">18</div>
+        <div class="counter-label">Одиниць техніки</div>
+        <div class="counter-line"></div>
+        <div class="counter-desc">Повний парк високопродуктивних транспортних засобів у розпорядженні Синдикату.</div>
     </div>
-
 </section>
+<!-- // FLEET SECTION HTML - КІНЕЦЬ // -->
 
 <!-- // LOCATION SECTION HTML - ПОЧАТОК // -->
 <section class="location" id="location">
@@ -3838,7 +3598,7 @@
 
             <!-- // House Number // -->
             <div class="house-block">
-                <div class="house-number">190</div>
+                <div class="house-number">162</div>
                 <p class="house-label">Residence ID</p>
             </div>
         </div>
@@ -3901,7 +3661,7 @@
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                         <polyline points="9 22 9 12 15 12 15 22"/>
                     </svg>
-                    <span class="cmd-text">190</span>
+                    <span class="cmd-text">162</span>
                 </div>
             </div>
         </div>
